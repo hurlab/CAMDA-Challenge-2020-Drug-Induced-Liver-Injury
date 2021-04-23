@@ -14,7 +14,6 @@ source('../scripts/packages.R')
 
 #setwd('/extData/NGS/hurlab/temi/projects/camda/mold2/')
 
-
 # Read data
 mold2.data <- read.csv('../data/p1-mold2-camda2020.csv',
                        header=T, stringsAsFactors = F, check.names = F, row.names='CAM_ID')
@@ -167,6 +166,8 @@ general.ctrl <- trainControl(method='repeatedcv',
                              classProbs = T,
                              summaryFunction = twoClassSummary,
                              allowParallel = T)
+
+print('Started training mold models...')
 
 # ============ DILI1 ========================
 # glm ============
@@ -827,6 +828,8 @@ rose.svmPoly6.model <- train(Class ~ ., data=rose.dili6.train, method='svmPoly',
 
 stopCluster(cl)
 
+print('Finished training mold models...')
+
 
 # ============= Evaluation =====================
 # dili1 ===================================
@@ -1107,6 +1110,14 @@ model.list.6 <- list(glm6=glm6.model, up.glm6=up.glm6.model, rose.glm6=rose.glm6
                      up.svmLinear6=up.svmLinear6.model, rose.svmLinear6=rose.svmLinear6.model, smote.svmLinear6=smote.svmLinear6.model, svmLinear6=svmLinear6.model,
                      up.svmRadial6=up.svmRadial6.model, smote.svmRadial6=smote.svmRadial6.model, rose.svmRadial6=rose.svmRadial6.model, svmRadial6=svmRadial6.model)
 
+# save the models into a list
+
+mold_models <- list(mold_dili1=model.list.1, mold_dili3=model.list.3, mold_dili5=model.list.5, mold_dili6=model.list.6)
+
+save(mold_models, file = '../models/mold_models.RData')
+
+rm(list=ls())
+
 
 # Automatically select the top 3 models
 
@@ -1118,298 +1129,298 @@ model.list.6 <- list(glm6=glm6.model, up.glm6=up.glm6.model, rose.glm6=rose.glm6
 
 
 
-
-
-
-# using the top 3 models in each category ==================
-b.model.list.1 <- list(smote.svmPoly1=smote.svmPoly1.model, 
-                       rose.svmPoly1=rose.svmPoly1.model,
-                       up.svmPoly1=up.svmPoly1.model,
-                       svmPoly1=svmPoly1.model,
-                       lda1=lda1.model,
-                       rpart1=rpart1.model)
-b.model.list.3 <- list(smote.svmPoly3=smote.svmPoly3.model, 
-                       rose.svmPoly3=rose.svmPoly3.model,
-                       up.svmPoly3=up.svmPoly3.model,
-                       svmPoly3=svmPoly3.model,
-                       svmRadial3=svmRadial3.model,
-                       svmLinear3=svmLinear3.model)
-b.model.list.5 <- list(rose.svmLinear5=rose.svmLinear5.model, 
-                       rose.svmPoly5=rose.svmPoly5.model,
-                       rose.svmRadial5=rose.svmRadial5.model,
-                       nb5=nb5.model,
-                       nnet5=nnet5.model,
-                       svmRadial5=svmRadial5.model)
-b.model.list.6 <- list(rose.rpart6=rose.rpart6.model, 
-                       up.rpart6=up.rpart6.model,
-                       smote.rpart6=smote.rpart6.model,
-                       rpart6=rpart6.model,
-                       nnet6=nnet6.model,
-                       svmRadial6=svmRadial6.model)
-
-# ROC plots
-dili1.roc <- lapply(b.model.list.1, function(x){
-    roc(predictor=x$pred$Positive, 
-        response=x$pred$obs)
-})
-dili3.roc <- lapply(b.model.list.3, function(x){
-    roc(predictor=x$pred$Positive, 
-        response=x$pred$obs)
-})
-dili5.roc <- lapply(b.model.list.5, function(x){
-    roc(predictor=x$pred$Positive, 
-        response=x$pred$obs)
-})
-dili6.roc <- lapply(b.model.list.6, function(x){
-    roc(predictor=x$pred$Positive, 
-        response=x$pred$obs)
-})
-
-collect <- function(roc.object){
-    
-    FPR <- rev(1-roc.object[['specificities']])
-    TPR <- rev(roc.object[['sensitivities']])
-    bound <- cbind(TPR, FPR)
-    return(bound)
-}
-
-dili1.out <- list()
-for (i in 1:length(dili1.roc)){
-    
-    values <- data.frame(collect(dili1.roc[[i]]))
-    model <- rep(paste(names(dili1.roc[i]), round(dili1.roc[[i]]$auc, 3), sep=': '),
-                 nrow(values))
-    dili1.out[[i]] <- data.frame(cbind(values, model))
-}
-comb1 <- do.call(rbind, dili1.out)
-
-dili3.out <- list()
-for (i in 1:length(dili3.roc)){
-    
-    values <- data.frame(collect(dili3.roc[[i]]))
-    model <- rep(paste(names(dili3.roc[i]), round(dili3.roc[[i]]$auc, 3), sep=': '),
-                 nrow(values))
-    dili3.out[[i]] <- data.frame(cbind(values, model))
-}
-comb3 <- do.call(rbind, dili3.out)
-
-dili5.out <- list()
-for (i in 1:length(dili5.roc)){
-    
-    values <- data.frame(collect(dili5.roc[[i]]))
-    model <- rep(paste(names(dili5.roc[i]), round(dili5.roc[[i]]$auc, 3), sep=': '),
-                 nrow(values))
-    dili5.out[[i]] <- data.frame(cbind(values, model))
-}
-comb5 <- do.call(rbind, dili5.out)
-
-dili6.out <- list()
-for (i in 1:length(dili6.roc)){
-    
-    values <- data.frame(collect(dili6.roc[[i]]))
-    model <- rep(paste(names(dili6.roc[i]), round(dili6.roc[[i]]$auc, 3), sep=': '),
-                 nrow(values))
-    dili6.out[[i]] <- data.frame(cbind(values, model))
-}
-comb6 <- do.call(rbind, dili6.out)
-
-roc.plot <- ggplot(comb3, aes(x=as.numeric(FPR), y=as.numeric(TPR), col=model)) + geom_line() + theme_bw() + 
-    geom_abline(intercept = 0, slope = 1, alpha=0.8, col='grey') + ylim(0, 1) + xlim(0, 1) +
-    theme(legend.text=element_text(size=14), 
-          legend.title = element_text(color='black', size=15),
-          axis.title.x=element_text(size=15, face='bold'), 
-          axis.title.y=element_text(size=15, face='bold'),
-          plot.title = element_text(face='bold', size=20),
-          axis.line = element_line(colour ='black', size=1)) + 
-    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
-    labs(col='Model and AUC value', x='False Positive Rate', y='True Positive Rate', title='Mold2 Dili3 Model Performance: AUC-ROC Curve')
-
-png(file="../output_plots/mold_results_dili3_roc_plot.png", width = 800, height=600)
-roc.plot
-dev.off()
-
-
-# mcc ==============
-
-#rf is my random forest model for dili1 
-rpart.model.list <- list(rpart1.model$pred,
-                         rpart3.model$pred,
-                         rpart5.model$pred,
-                         rpart6.model$pred)
-glm.model.list <- list(glm1.model$pred,
-                       glm3.model$pred,
-                       glm5.model$pred,
-                       glm6.model$pred)
-nb.model.list <- list(nb1.model$pred,
-                      nb3.model$pred,
-                      nb5.model$pred,
-                      nb6.model$pred)
-svmLinear.model.list <- list(svmLinear1.model$pred,
-                             svmLinear3.model$pred,
-                             svmLinear5.model$pred,
-                             svmLinear6.model$pred)
-svmPoly.model.list <- list(svmPoly1.model$pred,
-                           svmPoly3.model$pred,
-                           svmPoly5.model$pred,
-                           svmPoly6.model$pred)
-svmRadial.model.list <- list(svmRadial1.model$pred,
-                             svmRadial3.model$pred,
-                             svmRadial5.model$pred,
-                             svmRadial6.model$pred)
-lda.model.list <- list(lda1.model$pred,
-                       lda3.model$pred,
-                       lda5.model$pred,
-                       lda6.model$pred)
-nnet.model.list <- list(nnet1.model$pred,
-                        nnet3.model$pred,
-                        nnet5.model$pred,
-                        nnet6.model$pred)
-
-
-collect.model.mcc <- function(x.model.list, model.name=''){
-    
-    out <- list()
-    
-    for(i in 1:length(x.model.list)){
-        x_mcc <- as.data.frame(x.model.list[[i]]$pred)
-        x_mcc <- x_mcc[complete.cases(x_mcc), ]
-        x_mcc[,1] <- as.character(x_mcc[,1])
-        x_mcc[,2] <- as.character(x_mcc[,2])
-        x_mcc[x_mcc=="Positive"] <- 0
-        x_mcc[x_mcc=="Negative"] <- 1
-        
-        x.details <- x_mcc %>%
-            separate(Resample,c("cv","rep"),sep="\\.") %>%
-            group_by(rep) %>%
-            dplyr::summarise(mcc=mccr::mccr(obs, pred))
-        
-        names(x.details) <- c("5_fold_CV","DILI1")
-        out[[i]] <- x.details
-    }
-    output <- as.data.frame(do.call(cbind, out))
-    `5_fold_CV` <- paste0('Run', seq(1:100))
-    output[names(output) %in% c('5_fold_CV')] <- NULL
-    output <- as.data.frame(cbind(`5_fold_CV`, output))
-    names(output)[2:ncol(output)] <- c('DILI1', 'DILI3', 'DILI5', 'DILI6')
-    write.csv(output, file = paste('../output_files/p1.', model.name, '-crossvalidation-camda2020-UND', '.csv', sep=''), row.names=F)
-    #output
-}
-
-top1 <- list(DILI1=svmPoly1.model,
-             DILI3=svmPoly3.model,
-             DILI5=nb5.model,
-             DILI6=rpart6.model)
-top2 <- list(DILI1=lda1.model,
-             DILI3=nnet3.model,
-             DILI5=nnet5.model,
-             DILI6=nnet6.model)
-top3 <- list(DILI1=rpart1.model,
-             DILI3=lda3.model,
-             DILI5=rpart5.model,
-             DILI6=svmRadial6.model)
-
-top1.res <- list(DILI1=smote.svmPoly1.model,
-                 DILI3=rose.svmPoly3.model,
-                 DILI5=rose.svmPoly5.model,
-                 DILI6=rose.rpart6.model)
-top2.res <- list(DILI1=rose.svmPoly1.model,
-                 DILI3=smote.svmPoly3.model,
-                 DILI5=rose.svmRadial5.model,
-                 DILI6=up.rpart6.model)
-top3.res <- list(DILI1=up.svmPoly1.model,
-                 DILI3=up.svmPoly3.model,
-                 DILI5=rose.svmLinear5.model,
-                 DILI6=smote.rpart6.model)
-
-collect.model.mcc(top1, model.name = 'top1')
-collect.model.mcc(top2, model.name = 'top2')
-collect.model.mcc(top3, model.name = 'top3')
-
-collect.model.mcc(top1.res, model.name = 'resampled-top1')
-collect.model.mcc(top2.res, model.name = 'resampled-top2')
-collect.model.mcc(top3.res, model.name = 'resampled-top3')
-
-
-
-# collect.model.mcc(rpart.model.list, model.name = 'rpart')
-# collect.model.mcc(nnet.model.list, model.name = 'nnet')
-# collect.model.mcc(svmLinear.model.list, model.name ='svmLinear')
-# collect.model.mcc(svmRadial.model.list, model.name ='svmRadial')
-# collect.model.mcc(nb.model.list, model.name ='naive.bayes')
-# collect.model.mcc(glm.model.list, model.name ='glm')
-# collect.model.mcc(svmPoly.model.list, model.name ='svmPoly')
-# collect.model.mcc(lda.model.list, model.name ='lda')
-
-
-
 # 
-# # a function to calculate the matthew's correlation co-efficient ====
-# mcc <- function(x.model){
-#     cm <- confusionMatrix(x.model)[['table']]
+# 
+# 
+# # using the top 3 models in each category ==================
+# b.model.list.1 <- list(smote.svmPoly1=smote.svmPoly1.model, 
+#                        rose.svmPoly1=rose.svmPoly1.model,
+#                        up.svmPoly1=up.svmPoly1.model,
+#                        svmPoly1=svmPoly1.model,
+#                        lda1=lda1.model,
+#                        rpart1=rpart1.model)
+# b.model.list.3 <- list(smote.svmPoly3=smote.svmPoly3.model, 
+#                        rose.svmPoly3=rose.svmPoly3.model,
+#                        up.svmPoly3=up.svmPoly3.model,
+#                        svmPoly3=svmPoly3.model,
+#                        svmRadial3=svmRadial3.model,
+#                        svmLinear3=svmLinear3.model)
+# b.model.list.5 <- list(rose.svmLinear5=rose.svmLinear5.model, 
+#                        rose.svmPoly5=rose.svmPoly5.model,
+#                        rose.svmRadial5=rose.svmRadial5.model,
+#                        nb5=nb5.model,
+#                        nnet5=nnet5.model,
+#                        svmRadial5=svmRadial5.model)
+# b.model.list.6 <- list(rose.rpart6=rose.rpart6.model, 
+#                        up.rpart6=up.rpart6.model,
+#                        smote.rpart6=smote.rpart6.model,
+#                        rpart6=rpart6.model,
+#                        nnet6=nnet6.model,
+#                        svmRadial6=svmRadial6.model)
+# 
+# # ROC plots
+# dili1.roc <- lapply(b.model.list.1, function(x){
+#     roc(predictor=x$pred$Positive, 
+#         response=x$pred$obs)
+# })
+# dili3.roc <- lapply(b.model.list.3, function(x){
+#     roc(predictor=x$pred$Positive, 
+#         response=x$pred$obs)
+# })
+# dili5.roc <- lapply(b.model.list.5, function(x){
+#     roc(predictor=x$pred$Positive, 
+#         response=x$pred$obs)
+# })
+# dili6.roc <- lapply(b.model.list.6, function(x){
+#     roc(predictor=x$pred$Positive, 
+#         response=x$pred$obs)
+# })
+# 
+# collect <- function(roc.object){
 #     
-#     true.pos <- cm[1,1]
-#     false.pos <- cm[1,2]
-#     false.neg <- cm[2,1]
-#     true.neg <- cm[2,2]
-#     
-#     above <- true.pos*true.neg - false.pos*false.neg
-#     below <- as.double(true.pos+false.pos)*as.double(true.pos+false.neg)*as.double(true.neg+false.pos)*as.double(true.neg+false.neg)
-#     
-#     mcc <- above/sqrt(below)
-#     mcc
+#     FPR <- rev(1-roc.object[['specificities']])
+#     TPR <- rev(roc.object[['sensitivities']])
+#     bound <- cbind(TPR, FPR)
+#     return(bound)
 # }
 # 
-# collate.metrics <- function(sum.list, x.list, dili.name=''){
+# dili1.out <- list()
+# for (i in 1:length(dili1.roc)){
 #     
-#     out.roc <- list()
-#     out.sens <- list()
-#     out.spec <- list()
-#     out.mcc <- list()
+#     values <- data.frame(collect(dili1.roc[[i]]))
+#     model <- rep(paste(names(dili1.roc[i]), round(dili1.roc[[i]]$auc, 3), sep=': '),
+#                  nrow(values))
+#     dili1.out[[i]] <- data.frame(cbind(values, model))
+# }
+# comb1 <- do.call(rbind, dili1.out)
+# 
+# dili3.out <- list()
+# for (i in 1:length(dili3.roc)){
 #     
-#     for(i in 1:length(sum.list)){
-#         roc <- as.data.frame(sum.list[[i]]$statistics$ROC[, 'Mean'])
-#         roc$dataset <- row.names(roc)
-#         row.names(roc) <- NULL
-#         out.roc[[i]] <- roc
+#     values <- data.frame(collect(dili3.roc[[i]]))
+#     model <- rep(paste(names(dili3.roc[i]), round(dili3.roc[[i]]$auc, 3), sep=': '),
+#                  nrow(values))
+#     dili3.out[[i]] <- data.frame(cbind(values, model))
+# }
+# comb3 <- do.call(rbind, dili3.out)
+# 
+# dili5.out <- list()
+# for (i in 1:length(dili5.roc)){
+#     
+#     values <- data.frame(collect(dili5.roc[[i]]))
+#     model <- rep(paste(names(dili5.roc[i]), round(dili5.roc[[i]]$auc, 3), sep=': '),
+#                  nrow(values))
+#     dili5.out[[i]] <- data.frame(cbind(values, model))
+# }
+# comb5 <- do.call(rbind, dili5.out)
+# 
+# dili6.out <- list()
+# for (i in 1:length(dili6.roc)){
+#     
+#     values <- data.frame(collect(dili6.roc[[i]]))
+#     model <- rep(paste(names(dili6.roc[i]), round(dili6.roc[[i]]$auc, 3), sep=': '),
+#                  nrow(values))
+#     dili6.out[[i]] <- data.frame(cbind(values, model))
+# }
+# comb6 <- do.call(rbind, dili6.out)
+# 
+# roc.plot <- ggplot(comb3, aes(x=as.numeric(FPR), y=as.numeric(TPR), col=model)) + geom_line() + theme_bw() + 
+#     geom_abline(intercept = 0, slope = 1, alpha=0.8, col='grey') + ylim(0, 1) + xlim(0, 1) +
+#     theme(legend.text=element_text(size=14), 
+#           legend.title = element_text(color='black', size=15),
+#           axis.title.x=element_text(size=15, face='bold'), 
+#           axis.title.y=element_text(size=15, face='bold'),
+#           plot.title = element_text(face='bold', size=20),
+#           axis.line = element_line(colour ='black', size=1)) + 
+#     coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
+#     labs(col='Model and AUC value', x='False Positive Rate', y='True Positive Rate', title='Mold2 Dili3 Model Performance: AUC-ROC Curve')
+# 
+# png(file="../output_plots/mold_results_dili3_roc_plot.png", width = 800, height=600)
+# roc.plot
+# dev.off()
+# 
+# 
+# # mcc ==============
+# 
+# #rf is my random forest model for dili1 
+# rpart.model.list <- list(rpart1.model$pred,
+#                          rpart3.model$pred,
+#                          rpart5.model$pred,
+#                          rpart6.model$pred)
+# glm.model.list <- list(glm1.model$pred,
+#                        glm3.model$pred,
+#                        glm5.model$pred,
+#                        glm6.model$pred)
+# nb.model.list <- list(nb1.model$pred,
+#                       nb3.model$pred,
+#                       nb5.model$pred,
+#                       nb6.model$pred)
+# svmLinear.model.list <- list(svmLinear1.model$pred,
+#                              svmLinear3.model$pred,
+#                              svmLinear5.model$pred,
+#                              svmLinear6.model$pred)
+# svmPoly.model.list <- list(svmPoly1.model$pred,
+#                            svmPoly3.model$pred,
+#                            svmPoly5.model$pred,
+#                            svmPoly6.model$pred)
+# svmRadial.model.list <- list(svmRadial1.model$pred,
+#                              svmRadial3.model$pred,
+#                              svmRadial5.model$pred,
+#                              svmRadial6.model$pred)
+# lda.model.list <- list(lda1.model$pred,
+#                        lda3.model$pred,
+#                        lda5.model$pred,
+#                        lda6.model$pred)
+# nnet.model.list <- list(nnet1.model$pred,
+#                         nnet3.model$pred,
+#                         nnet5.model$pred,
+#                         nnet6.model$pred)
+# 
+# 
+# collect.model.mcc <- function(x.model.list, model.name=''){
+#     
+#     out <- list()
+#     
+#     for(i in 1:length(x.model.list)){
+#         x_mcc <- as.data.frame(x.model.list[[i]]$pred)
+#         x_mcc <- x_mcc[complete.cases(x_mcc), ]
+#         x_mcc[,1] <- as.character(x_mcc[,1])
+#         x_mcc[,2] <- as.character(x_mcc[,2])
+#         x_mcc[x_mcc=="Positive"] <- 0
+#         x_mcc[x_mcc=="Negative"] <- 1
 #         
-#         sens <- as.data.frame(sum.list[[i]]$statistics$Sens[, 'Mean'])
-#         sens$dataset <- row.names(sens)
-#         row.names(sens) <- NULL
-#         out.sens[[i]] <- sens
+#         x.details <- x_mcc %>%
+#             separate(Resample,c("cv","rep"),sep="\\.") %>%
+#             group_by(rep) %>%
+#             dplyr::summarise(mcc=mccr::mccr(obs, pred))
 #         
-#         spec <- as.data.frame(sum.list[[i]]$statistics$Spec[, 'Mean'])
-#         spec$dataset <- row.names(spec)
-#         row.names(spec) <- NULL
-#         out.spec[[i]] <- spec
+#         names(x.details) <- c("5_fold_CV","DILI1")
+#         out[[i]] <- x.details
 #     }
-#     
-#     for(i in 1:length(x.list)){
-#         mcc.i <- data.frame(dataset=names(x.list)[i], mcc=mcc(x.list[[i]]))
-#         out.mcc[[i]] <- mcc.i
-#     }
-#     
-#     roc <- do.call(rbind, out.roc)
-#     names(roc)[1] <- 'ROC'
-#     sens <- do.call(rbind, out.sens)
-#     names(sens)[1] <- 'Sens'
-#     spec <- do.call(rbind, out.spec)
-#     names(spec)[1] <- 'Spec'
-#     mcc <- do.call(rbind, out.mcc)
-#     
-#     first <- merge(roc, sens, by='dataset')
-#     mid <- merge(first, spec, by='dataset')
-#     last <- merge(mid, mcc, by='dataset')
-#     last <- last %>% arrange(ROC)
-#     
-#     write.csv(last, file = paste('../mold2/mold_results/', dili.name, 'metrics.csv', sep=''), row.names=T)
+#     output <- as.data.frame(do.call(cbind, out))
+#     `5_fold_CV` <- paste0('Run', seq(1:100))
+#     output[names(output) %in% c('5_fold_CV')] <- NULL
+#     output <- as.data.frame(cbind(`5_fold_CV`, output))
+#     names(output)[2:ncol(output)] <- c('DILI1', 'DILI3', 'DILI5', 'DILI6')
+#     write.csv(output, file = paste('../output_files/p1.', model.name, '-crossvalidation-camda2020-UND', '.csv', sep=''), row.names=F)
+#     #output
 # }
 # 
-# collate.metrics(sum.list=summary.list.1, x.list=model.list.1, dili.name = 'dili1')
-# collate.metrics(sum.list=summary.list.3, x.list=model.list.3, dili.name = 'dili3')
-# collate.metrics(sum.list=summary.list.5, x.list=model.list.5, dili.name = 'dili5')
-# collate.metrics(sum.list=summary.list.6, x.list=model.list.6, dili.name = 'dili6')
+# top1 <- list(DILI1=svmPoly1.model,
+#              DILI3=svmPoly3.model,
+#              DILI5=nb5.model,
+#              DILI6=rpart6.model)
+# top2 <- list(DILI1=lda1.model,
+#              DILI3=nnet3.model,
+#              DILI5=nnet5.model,
+#              DILI6=nnet6.model)
+# top3 <- list(DILI1=rpart1.model,
+#              DILI3=lda3.model,
+#              DILI5=rpart5.model,
+#              DILI6=svmRadial6.model)
+# 
+# top1.res <- list(DILI1=smote.svmPoly1.model,
+#                  DILI3=rose.svmPoly3.model,
+#                  DILI5=rose.svmPoly5.model,
+#                  DILI6=rose.rpart6.model)
+# top2.res <- list(DILI1=rose.svmPoly1.model,
+#                  DILI3=smote.svmPoly3.model,
+#                  DILI5=rose.svmRadial5.model,
+#                  DILI6=up.rpart6.model)
+# top3.res <- list(DILI1=up.svmPoly1.model,
+#                  DILI3=up.svmPoly3.model,
+#                  DILI5=rose.svmLinear5.model,
+#                  DILI6=smote.rpart6.model)
+# 
+# collect.model.mcc(top1, model.name = 'top1')
+# collect.model.mcc(top2, model.name = 'top2')
+# collect.model.mcc(top3, model.name = 'top3')
+# 
+# collect.model.mcc(top1.res, model.name = 'resampled-top1')
+# collect.model.mcc(top2.res, model.name = 'resampled-top2')
+# collect.model.mcc(top3.res, model.name = 'resampled-top3')
 # 
 # 
+# 
+# # collect.model.mcc(rpart.model.list, model.name = 'rpart')
+# # collect.model.mcc(nnet.model.list, model.name = 'nnet')
+# # collect.model.mcc(svmLinear.model.list, model.name ='svmLinear')
+# # collect.model.mcc(svmRadial.model.list, model.name ='svmRadial')
+# # collect.model.mcc(nb.model.list, model.name ='naive.bayes')
+# # collect.model.mcc(glm.model.list, model.name ='glm')
+# # collect.model.mcc(svmPoly.model.list, model.name ='svmPoly')
+# # collect.model.mcc(lda.model.list, model.name ='lda')
+# 
+# 
+# 
+# # 
+# # # a function to calculate the matthew's correlation co-efficient ====
+# # mcc <- function(x.model){
+# #     cm <- confusionMatrix(x.model)[['table']]
+# #     
+# #     true.pos <- cm[1,1]
+# #     false.pos <- cm[1,2]
+# #     false.neg <- cm[2,1]
+# #     true.neg <- cm[2,2]
+# #     
+# #     above <- true.pos*true.neg - false.pos*false.neg
+# #     below <- as.double(true.pos+false.pos)*as.double(true.pos+false.neg)*as.double(true.neg+false.pos)*as.double(true.neg+false.neg)
+# #     
+# #     mcc <- above/sqrt(below)
+# #     mcc
+# # }
+# # 
+# # collate.metrics <- function(sum.list, x.list, dili.name=''){
+# #     
+# #     out.roc <- list()
+# #     out.sens <- list()
+# #     out.spec <- list()
+# #     out.mcc <- list()
+# #     
+# #     for(i in 1:length(sum.list)){
+# #         roc <- as.data.frame(sum.list[[i]]$statistics$ROC[, 'Mean'])
+# #         roc$dataset <- row.names(roc)
+# #         row.names(roc) <- NULL
+# #         out.roc[[i]] <- roc
+# #         
+# #         sens <- as.data.frame(sum.list[[i]]$statistics$Sens[, 'Mean'])
+# #         sens$dataset <- row.names(sens)
+# #         row.names(sens) <- NULL
+# #         out.sens[[i]] <- sens
+# #         
+# #         spec <- as.data.frame(sum.list[[i]]$statistics$Spec[, 'Mean'])
+# #         spec$dataset <- row.names(spec)
+# #         row.names(spec) <- NULL
+# #         out.spec[[i]] <- spec
+# #     }
+# #     
+# #     for(i in 1:length(x.list)){
+# #         mcc.i <- data.frame(dataset=names(x.list)[i], mcc=mcc(x.list[[i]]))
+# #         out.mcc[[i]] <- mcc.i
+# #     }
+# #     
+# #     roc <- do.call(rbind, out.roc)
+# #     names(roc)[1] <- 'ROC'
+# #     sens <- do.call(rbind, out.sens)
+# #     names(sens)[1] <- 'Sens'
+# #     spec <- do.call(rbind, out.spec)
+# #     names(spec)[1] <- 'Spec'
+# #     mcc <- do.call(rbind, out.mcc)
+# #     
+# #     first <- merge(roc, sens, by='dataset')
+# #     mid <- merge(first, spec, by='dataset')
+# #     last <- merge(mid, mcc, by='dataset')
+# #     last <- last %>% arrange(ROC)
+# #     
+# #     write.csv(last, file = paste('../mold2/mold_results/', dili.name, 'metrics.csv', sep=''), row.names=T)
+# # }
+# # 
+# # collate.metrics(sum.list=summary.list.1, x.list=model.list.1, dili.name = 'dili1')
+# # collate.metrics(sum.list=summary.list.3, x.list=model.list.3, dili.name = 'dili3')
+# # collate.metrics(sum.list=summary.list.5, x.list=model.list.5, dili.name = 'dili5')
+# # collate.metrics(sum.list=summary.list.6, x.list=model.list.6, dili.name = 'dili6')
+# # 
+# # 
 # ============== Prediction and Validation ==================
 # use the best models to predict
 # none-resampled datasets
@@ -1495,7 +1506,7 @@ mold2.validate <- mold2.validate[row.names(mold2.validate) %in% mold2.validate.n
 
 # run predictions
 run.predictions <- function(model.list, new.data, model.name='', resampled=F, test.data=T){
-    
+
     output <- list()
     for (i in 1:length(model.list)){
         predicted.values <- as.vector(predict(model.list[[i]], newdata=new.data))
@@ -1503,13 +1514,13 @@ run.predictions <- function(model.list, new.data, model.name='', resampled=F, te
         predicted.values[predicted.values == 'Negative'] <- 1
         output[[paste(names(model.list)[i], sep='')]] <- as.numeric(predicted.values)
     }
-    
+
     # print(output)
     # str(do.call(cbind, output))
     result <- data.frame(cbind(CAM_ID=row.names(new.data), as.data.frame(do.call(cbind, output))))
     #row.names(result) <- row.names(new.data)
     #names(result)[1] <- 'CAM_ID'
-    
+
     if (resampled==F) {
         if (test.data==T) {
             write.csv(result, file=paste('../output_files/p1.', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)

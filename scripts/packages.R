@@ -124,27 +124,29 @@ collate.metrics <- function(sum.list, x.list, dili.name='', dt='', write.file=F)
     }
 }
 
-select.top.three <- function(model.metrics, x.list){
+select.top.three <- function(model.metrics, x.list, n=3){
     
     tops <- model.metrics %>% 
         group_by(training_type) %>%
         dplyr::arrange(desc(ROC)) %>%
-        filter(row_number() %in% c(1:3))
+        filter(row_number() %in% c(1:n))
+    
+    #x.list <- unlist(x.list, recursive = F)
     
     tt <- x.list[names(x.list) %in% tops$model]
     
-    return(list(top_three=tt, top_metrics=tops))
+    return(list(top_models=tt, top_metrics=tops))
     
 }
 
-tt <- select.top.three(tst)
-
-model.list.1[names(model.list.1) %in% tt$model]
-
-# tst$training_type <- ifelse(grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', tst$dataset), 'resampled', 'non-resampled')
+# tt <- select.top.three(tst)
 # 
-# grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', tst$dataset)
-
-training.set %>%
-    filter(Training_Validation=='Training Set') %>% .$DILI5 %>%
-    table()
+# model.list.1[names(model.list.1) %in% tt$model]
+# 
+# # tst$training_type <- ifelse(grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', tst$dataset), 'resampled', 'non-resampled')
+# # 
+# # grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', tst$dataset)
+# 
+# training.set %>%
+#     filter(Training_Validation=='Training Set') %>% .$DILI5 %>%
+#     table()

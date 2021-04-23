@@ -156,6 +156,8 @@ general.ctrl <- trainControl(method='repeatedcv',
                              summaryFunction = twoClassSummary,
                              allowParallel = T)
 
+print('Started training faers models...')
+
 # ============= DILI1 ==================================
 # glm ======
 set.seed(1)
@@ -558,6 +560,8 @@ nb6.up.model <- train(x=up.faers6.train[, -ncol(up.faers6.train)][, rfe6],
 
 stopCluster(cl)
 
+print('Finished training faers models...')
+
 # Evaluation==================
 # dili1==============
 glm1.res <- resamples(list(glm1=glm1.model,
@@ -750,110 +754,119 @@ model.list.6 <- list(glm6=glm6.model, glm6.up=glm6.up.model,
                      nnet6=nnet6.model, nnet6.up=nnet6.up.model,
                      nb6=nb6.model, nb6.up=nb6.up.model)
 
-# a function to calculate the matthew's correlation co-efficient ====
-mcc <- function(x.model){
-    cm <- confusionMatrix(x.model)[['table']]
-    true.pos <- cm[1,1]
-    false.pos <- cm[1,2]
-    false.neg <- cm[2,1]
-    true.neg <- cm[2,2]
-    
-    above <- true.pos*true.neg - false.pos*false.neg
-    below <- as.double(true.pos+false.pos)*as.double(true.pos+false.neg)*as.double(true.neg+false.pos)*as.double(true.neg+false.neg)
-    
-    mcc <- above/sqrt(below)
-    mcc
-}
 
-collate.metrics <- function(sum.list, x.list, dili.name='', write.file=F){
-    
-    # """ This function collates metrics for a list of models """
-    
-    out.roc <- list()
-    out.sens <- list()
-    out.spec <- list()
-    out.mcc <- list()
-    
-    for(i in 1:length(sum.list)){
-        roc <- as.data.frame(sum.list[[i]]$statistics$ROC[, 'Mean'])
-        roc$dataset <- row.names(roc)
-        row.names(roc) <- NULL
-        out.roc[[i]] <- roc
-        
-        sens <- as.data.frame(sum.list[[i]]$statistics$Sens[, 'Mean'])
-        sens$dataset <- row.names(sens)
-        row.names(sens) <- NULL
-        out.sens[[i]] <- sens
-        
-        spec <- as.data.frame(sum.list[[i]]$statistics$Spec[, 'Mean'])
-        spec$dataset <- row.names(spec)
-        row.names(spec) <- NULL
-        out.spec[[i]] <- spec
-    }
-    
-    for(i in 1:length(x.list)){
-        mcc.i <- data.frame(dataset=names(x.list)[i], mcc=mcc(x.list[[i]]))
-        out.mcc[[i]] <- mcc.i
-    }
-    
-    roc <- do.call(rbind, out.roc)
-    names(roc)[1] <- 'ROC'
-    sens <- do.call(rbind, out.sens)
-    names(sens)[1] <- 'Sens'
-    spec <- do.call(rbind, out.spec)
-    names(spec)[1] <- 'Spec'
-    mcc <- do.call(rbind, out.mcc)
-    
-    first <- merge(roc, sens, by='dataset')
-    mid <- merge(first, spec, by='dataset')
-    last <- merge(mid, mcc, by='dataset')
-    last <- last %>% arrange(ROC)
-    
-    if(write.file==T){
-        write.csv(last, file = paste('../output_files/p2.', dili.name, '.csv', sep=''), row.names=F)
-    } else {
-        return(last)
-    }
-    
-    write.csv(last, file = paste('../output_files/p2.', dili.name, '.csv', sep=''), row.names=F)
-}
-
-collate.metrics(sum.list=summary.list.1, x.list=model.list.1, dili.name = 'dili1', dt='p2', write.file = F)
-collate.metrics(sum.list=summary.list.3, x.list=model.list.3, dili.name = 'dili3')
-collate.metrics(sum.list=summary.list.5, x.list=model.list.5, dili.name = 'dili5')
-collate.metrics(sum.list=summary.list.6, x.list=model.list.6, dili.name = 'dili6')
+# save the models into a list
+faers_models <- list(faers_dili1=model.list.1, faers_dili3=model.list.3, faers_dili5=model.list.5, faers_dili6=model.list.6)
+save(faers_models, file = '../models/faers_models.RData')
+rm(list=ls())
 
 
-# run predictions
-run.predictions <- function(model.list, new.data, model.name='', resampled=F, test.data=T){
-    
-    output <- list()
-    for (i in 1:length(model.list)){
-        predicted.values <- as.vector(predict(model.list[[i]], newdata=new.data))
-        predicted.values[predicted.values == 'Positive'] <- 0
-        predicted.values[predicted.values == 'Negative'] <- 1
-        output[[paste(names(model.list)[i], sep='')]] <- as.numeric(predicted.values)
-    }
-    
-    # print(output)
-    # str(do.call(cbind, output))
-    result <- data.frame(cbind(CAM_ID=row.names(new.data), as.data.frame(do.call(cbind, output))))
-    #row.names(result) <- row.names(new.data)
-    #names(result)[1] <- 'CAM_ID'
-    
-    if (resampled==F) {
-        if (test.data==T) {
-            write.csv(result, file=paste('../output_files/p2.', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
-        } else {
-            write.csv(result, file='../output_files/faers_results_train_faers_predictions.csv')
-        }
-    } else if (resampled==T) {
-        if (test.data==T) {
-            write.csv(result, file=paste('../output_files/p1.resampled-', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
-        } else {
-            write.csv(result, file='../output_files/faers_results_train_faers_resampled_predictions.csv')
-        }
-    }
-    result
-}
-
+# 
+# 
+# # a function to calculate the matthew's correlation co-efficient ====
+# mcc <- function(x.model){
+#     cm <- confusionMatrix(x.model)[['table']]
+#     true.pos <- cm[1,1]
+#     false.pos <- cm[1,2]
+#     false.neg <- cm[2,1]
+#     true.neg <- cm[2,2]
+#     
+#     above <- true.pos*true.neg - false.pos*false.neg
+#     below <- as.double(true.pos+false.pos)*as.double(true.pos+false.neg)*as.double(true.neg+false.pos)*as.double(true.neg+false.neg)
+#     
+#     mcc <- above/sqrt(below)
+#     mcc
+# }
+# 
+# collate.metrics <- function(sum.list, x.list, dili.name='', write.file=F){
+#     
+#     # """ This function collates metrics for a list of models """
+#     
+#     out.roc <- list()
+#     out.sens <- list()
+#     out.spec <- list()
+#     out.mcc <- list()
+#     
+#     for(i in 1:length(sum.list)){
+#         roc <- as.data.frame(sum.list[[i]]$statistics$ROC[, 'Mean'])
+#         roc$dataset <- row.names(roc)
+#         row.names(roc) <- NULL
+#         out.roc[[i]] <- roc
+#         
+#         sens <- as.data.frame(sum.list[[i]]$statistics$Sens[, 'Mean'])
+#         sens$dataset <- row.names(sens)
+#         row.names(sens) <- NULL
+#         out.sens[[i]] <- sens
+#         
+#         spec <- as.data.frame(sum.list[[i]]$statistics$Spec[, 'Mean'])
+#         spec$dataset <- row.names(spec)
+#         row.names(spec) <- NULL
+#         out.spec[[i]] <- spec
+#     }
+#     
+#     for(i in 1:length(x.list)){
+#         mcc.i <- data.frame(dataset=names(x.list)[i], mcc=mcc(x.list[[i]]))
+#         out.mcc[[i]] <- mcc.i
+#     }
+#     
+#     roc <- do.call(rbind, out.roc)
+#     names(roc)[1] <- 'ROC'
+#     sens <- do.call(rbind, out.sens)
+#     names(sens)[1] <- 'Sens'
+#     spec <- do.call(rbind, out.spec)
+#     names(spec)[1] <- 'Spec'
+#     mcc <- do.call(rbind, out.mcc)
+#     
+#     first <- merge(roc, sens, by='dataset')
+#     mid <- merge(first, spec, by='dataset')
+#     last <- merge(mid, mcc, by='dataset')
+#     last <- last %>% arrange(ROC)
+#     
+#     if(write.file==T){
+#         write.csv(last, file = paste('../output_files/p2.', dili.name, '.csv', sep=''), row.names=F)
+#     } else {
+#         return(last)
+#     }
+#     
+#     write.csv(last, file = paste('../output_files/p2.', dili.name, '.csv', sep=''), row.names=F)
+# }
+# 
+# collate.metrics(sum.list=summary.list.1, x.list=model.list.1, dili.name = 'dili1', dt='p2', write.file = F)
+# collate.metrics(sum.list=summary.list.3, x.list=model.list.3, dili.name = 'dili3')
+# collate.metrics(sum.list=summary.list.5, x.list=model.list.5, dili.name = 'dili5')
+# collate.metrics(sum.list=summary.list.6, x.list=model.list.6, dili.name = 'dili6')
+# 
+# 
+# # run predictions
+# run.predictions <- function(model.list, new.data, model.name='', resampled=F, test.data=T){
+#     
+#     output <- list()
+#     for (i in 1:length(model.list)){
+#         predicted.values <- as.vector(predict(model.list[[i]], newdata=new.data))
+#         predicted.values[predicted.values == 'Positive'] <- 0
+#         predicted.values[predicted.values == 'Negative'] <- 1
+#         output[[paste(names(model.list)[i], sep='')]] <- as.numeric(predicted.values)
+#     }
+#     
+#     # print(output)
+#     # str(do.call(cbind, output))
+#     result <- data.frame(cbind(CAM_ID=row.names(new.data), as.data.frame(do.call(cbind, output))))
+#     #row.names(result) <- row.names(new.data)
+#     #names(result)[1] <- 'CAM_ID'
+#     
+#     if (resampled==F) {
+#         if (test.data==T) {
+#             write.csv(result, file=paste('../output_files/p2.', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
+#         } else {
+#             write.csv(result, file='../output_files/faers_results_train_faers_predictions.csv')
+#         }
+#     } else if (resampled==T) {
+#         if (test.data==T) {
+#             write.csv(result, file=paste('../output_files/p1.resampled-', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
+#         } else {
+#             write.csv(result, file='../output_files/faers_results_train_faers_resampled_predictions.csv')
+#         }
+#     }
+#     result
+# }
+# 
