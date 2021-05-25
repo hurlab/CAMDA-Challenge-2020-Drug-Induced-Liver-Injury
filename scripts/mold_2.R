@@ -27,9 +27,9 @@ training.set <- subset(target.data, Training_Validation=='Training Set') # 422 o
 mold2.train.set <- mold2.data[rownames(mold2.data) %in% training.set$CAM_ID, ] # 422 obs
 # >>> balanced
 
-as.data.frame(apply(mold2.train.set, 1, function(x){
-    sum(is.na(x))
-}))
+# as.data.frame(apply(mold2.train.set, 1, function(x){
+#     sum(is.na(x))
+# }))
 
 # create dili1 to dili6 datasets
 dili1.train <- cbind(mold2.train.set, Class=as.factor(training.set$DILI1))
@@ -89,8 +89,8 @@ set.seed(1)
 rose.dili6.train <- ROSE::ovun.sample(Class ~., data=dili6.train, 
                                       N=max(table(dili6.train$Class))*2, method='over', seed=1)$data
 
-cl <- makeCluster(detectCores() - 56)
-registerDoParallel(cl)
+
+registerDoParallel(clusters)
 
 # use glm to remove zero variance variables
 reduce.using.glm <- function(df){
@@ -826,7 +826,7 @@ rose.svmPoly6.model <- train(Class ~ ., data=rose.dili6.train, method='svmPoly',
                              metric='ROC', trControl=general.ctrl, tuneGrid=svmPoly6.grid,
                              preProcess=c('scale', 'center'))
 
-stopCluster(cl)
+stopCluster(clusters)
 
 print('Finished training mold models...')
 
@@ -1119,7 +1119,7 @@ save(mold_models, file = '../models/mold_models.RData')
 rm(list=ls())
 
 
-# Automatically select the top 3 models
+# the rest of the script are not used =====================================================
 
 
 
@@ -1425,143 +1425,143 @@ rm(list=ls())
 # use the best models to predict
 # none-resampled datasets
 
-non.res.best <- resamples(list(rpart6=rpart6.model,
-                               nb5=nb5.model,
-                               svmPoly3=svmPoly3.model,
-                               svmPoly1=svmPoly1.model))
-res.best <- resamples(list(rose.svmPoly5=rose.svmPoly5.model,
-                           rose.rpart6=rose.rpart6.model,
-                           smote.svmPoly1=smote.svmPoly1.model,
-                           rose.svmPoly3=rose.svmPoly3.model))
-
-best.non.res.model.list <- list(rpart6=rpart6.model,
-                                nb5=nb5.model,
-                                svmPoly3=svmPoly3.model,
-                                svmPoly1=svmPoly1.model)
-best.res.model.list <- list(rose.svmPoly5=rose.svmPoly5.model,
-                            rose.rpart6=rose.rpart6.model,
-                            smote.svmPoly1=smote.svmPoly1.model,
-                            rose.svmPoly3=rose.svmPoly3.model)
-
-
-# There are 190 validation samples
-# 18 of them have 24 NA columns >>> taking them out
-
-
-#mold2.train <- subset(mold2.train, all_gender_all != 0)
-
-# validation set
-validation.set <- subset(target.data, Training_Validation=='') # 195 obs
-mold2.validate <- mold2.data[rownames(mold2.data) %in% validation.set$CAM_ID, ] # 190 obs
-
-df.validation.dataset <- data.frame(sort(apply(mold2.validate, 1, function(x){sum(is.na(x))}), decreasing = T))
-names(df.validation.dataset) <- 'No.of.NAs'
-mold2.validate.names <- row.names(subset(df.validation.dataset, No.of.NAs==0))
-mold2.validate <- mold2.validate[row.names(mold2.validate) %in% mold2.validate.names, ]
-
-# v.names <- row.names(mold2.validate)
-# mold2.validate <- mold2.validate %>%
-#     mutate(ratio_dili_all=dili_gender_all/all_gender_all,
-#            male_rate=(dili_gender_all*dili_gender_male_percentage)/(all_gender_male_percentage*all_gender_all),
-#            female_rate=(dili_gender_all*dili_gender_female_percentage)/(all_gender_female_percentage*all_gender_all))
-# row.names(mold2.validate) <- v.names
-
-# model list
-# rpart.model.list <- list(DILI1=rpart1.model,
-#                          DILI3=rpart3.model,
-#                          DILI5=rpart5.model,
-#                          DILI6=rpart6.model)
-
-
-
-
-# glm.model.list <- list(DILI1=glm1.model,
-#                        DILI3=glm3.model,
-#                        DILI5=glm5.model,
-#                        DILI6=glm6.model)
-# nb.model.list <- list(DILI1=nb1.model,
-#                       DILI3=nb3.model,
-#                       DILI5=nb5.model,
-#                       DILI6=nb6.model)
-# svmLinear.model.list <- list(DILI1=svmLinear1.model,
-#                              DILI3=svmLinear3.model,
-#                              DILI5=svmLinear5.model,
-#                              DILI6=svmLinear6.model)
-# svmPoly.model.list <- list(DILI1=svmPoly1.model,
-#                            DILI3=svmPoly3.model,
-#                            DILI5=svmPoly5.model,
-#                            DILI6=svmPoly6.model)
-# svmRadial.model.list <- list(DILI1=svmRadial1.model,
-#                              DILI3=svmRadial3.model,
-#                              DILI5=svmRadial5.model,
-#                              DILI6=svmRadial6.model)
-# lda.model.list <- list(DILI1=lda1.model,
-#                        DILI3=lda3.model,
-#                        DILI5=lda5.model,
-#                        DILI6=lda6.model)
-# nnet.model.list <- list(DILI1=nnet1.model,
-#                         DILI3=nnet3.model,
-#                         DILI5=nnet5.model,
-#                         DILI6=nnet6.model)
-
-# run predictions
-run.predictions <- function(model.list, new.data, model.name='', resampled=F, test.data=T){
-
-    output <- list()
-    for (i in 1:length(model.list)){
-        predicted.values <- as.vector(predict(model.list[[i]], newdata=new.data))
-        predicted.values[predicted.values == 'Positive'] <- 0
-        predicted.values[predicted.values == 'Negative'] <- 1
-        output[[paste(names(model.list)[i], sep='')]] <- as.numeric(predicted.values)
-    }
-
-    # print(output)
-    # str(do.call(cbind, output))
-    result <- data.frame(cbind(CAM_ID=row.names(new.data), as.data.frame(do.call(cbind, output))))
-    #row.names(result) <- row.names(new.data)
-    #names(result)[1] <- 'CAM_ID'
-
-    if (resampled==F) {
-        if (test.data==T) {
-            write.csv(result, file=paste('../output_files/p1.', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
-        } else {
-            write.csv(result, file='../output_files/mold_results_train_mold2_predictions.csv')
-        }
-    } else if (resampled==T) {
-        if (test.data==T) {
-            write.csv(result, file=paste('../output_files/p1.resampled-', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
-        } else {
-            write.csv(result, file='../output_files/mold_results_train_mold2_resampled_predictions.csv')
-        }
-    }
-    result
-}
-
-# run.predictions(rpart.model.list, mold2.validate, model.name = 'rpart', resampled=F, test.data = T)
-# run.predictions(glm.model.list, mold2.validate, model.name = 'glm', resampled=F, test.data = T)
-# run.predictions(svmLinear.model.list, mold2.validate, model.name = 'svmLinear', resampled=F, test.data = T)
-# run.predictions(nb.model.list, mold2.validate, model.name = 'nb', resampled=F, test.data = T)
-# run.predictions(svmPoly.model.list, mold2.validate, model.name = 'svmPoly', resampled=F, test.data = T)
-# run.predictions(svmRadial.model.list, mold2.validate, model.name = 'svmRadial', resampled=F, test.data = T)
-# run.predictions(lda.model.list, mold2.validate, model.name = 'lda', resampled=F, test.data = T)
-# run.predictions(nnet.model.list, mold2.validate, model.name = 'nnet', resampled=F, test.data = T)
-
-run.predictions(top1, mold2.validate, model.name = 'top1', resampled=F, test.data = T)
-run.predictions(top2, mold2.validate, model.name = 'top2', resampled=F, test.data = T)
-run.predictions(top3, mold2.validate, model.name = 'top3', resampled=F, test.data = T)
-
-run.predictions(top1.res, mold2.validate, model.name = 'top1', resampled=T, test.data = T)
-run.predictions(top2.res, mold2.validate, model.name = 'top2', resampled=T, test.data = T)
-run.predictions(top3.res, mold2.validate, model.name = 'top3', resampled=T, test.data = T)
-
-
-
-#run.predictions(best.res.model.list, mold2.validate, resampled=T, test.data = T)
-
-# run predictions on the training set ===============
-
-run.predictions(best.non.res.model.list, mold2.train.set, resampled=F, test.data = F)
-run.predictions(best.res.model.list, mold2.train.set, resampled=T, test.data = F)
-
-
-
+# non.res.best <- resamples(list(rpart6=rpart6.model,
+#                                nb5=nb5.model,
+#                                svmPoly3=svmPoly3.model,
+#                                svmPoly1=svmPoly1.model))
+# res.best <- resamples(list(rose.svmPoly5=rose.svmPoly5.model,
+#                            rose.rpart6=rose.rpart6.model,
+#                            smote.svmPoly1=smote.svmPoly1.model,
+#                            rose.svmPoly3=rose.svmPoly3.model))
+# 
+# best.non.res.model.list <- list(rpart6=rpart6.model,
+#                                 nb5=nb5.model,
+#                                 svmPoly3=svmPoly3.model,
+#                                 svmPoly1=svmPoly1.model)
+# best.res.model.list <- list(rose.svmPoly5=rose.svmPoly5.model,
+#                             rose.rpart6=rose.rpart6.model,
+#                             smote.svmPoly1=smote.svmPoly1.model,
+#                             rose.svmPoly3=rose.svmPoly3.model)
+# 
+# 
+# # There are 190 validation samples
+# # 18 of them have 24 NA columns >>> taking them out
+# 
+# 
+# #mold2.train <- subset(mold2.train, all_gender_all != 0)
+# 
+# # validation set
+# validation.set <- subset(target.data, Training_Validation=='') # 195 obs
+# mold2.validate <- mold2.data[rownames(mold2.data) %in% validation.set$CAM_ID, ] # 190 obs
+# 
+# df.validation.dataset <- data.frame(sort(apply(mold2.validate, 1, function(x){sum(is.na(x))}), decreasing = T))
+# names(df.validation.dataset) <- 'No.of.NAs'
+# mold2.validate.names <- row.names(subset(df.validation.dataset, No.of.NAs==0))
+# mold2.validate <- mold2.validate[row.names(mold2.validate) %in% mold2.validate.names, ]
+# 
+# # v.names <- row.names(mold2.validate)
+# # mold2.validate <- mold2.validate %>%
+# #     mutate(ratio_dili_all=dili_gender_all/all_gender_all,
+# #            male_rate=(dili_gender_all*dili_gender_male_percentage)/(all_gender_male_percentage*all_gender_all),
+# #            female_rate=(dili_gender_all*dili_gender_female_percentage)/(all_gender_female_percentage*all_gender_all))
+# # row.names(mold2.validate) <- v.names
+# 
+# # model list
+# # rpart.model.list <- list(DILI1=rpart1.model,
+# #                          DILI3=rpart3.model,
+# #                          DILI5=rpart5.model,
+# #                          DILI6=rpart6.model)
+# 
+# 
+# 
+# 
+# # glm.model.list <- list(DILI1=glm1.model,
+# #                        DILI3=glm3.model,
+# #                        DILI5=glm5.model,
+# #                        DILI6=glm6.model)
+# # nb.model.list <- list(DILI1=nb1.model,
+# #                       DILI3=nb3.model,
+# #                       DILI5=nb5.model,
+# #                       DILI6=nb6.model)
+# # svmLinear.model.list <- list(DILI1=svmLinear1.model,
+# #                              DILI3=svmLinear3.model,
+# #                              DILI5=svmLinear5.model,
+# #                              DILI6=svmLinear6.model)
+# # svmPoly.model.list <- list(DILI1=svmPoly1.model,
+# #                            DILI3=svmPoly3.model,
+# #                            DILI5=svmPoly5.model,
+# #                            DILI6=svmPoly6.model)
+# # svmRadial.model.list <- list(DILI1=svmRadial1.model,
+# #                              DILI3=svmRadial3.model,
+# #                              DILI5=svmRadial5.model,
+# #                              DILI6=svmRadial6.model)
+# # lda.model.list <- list(DILI1=lda1.model,
+# #                        DILI3=lda3.model,
+# #                        DILI5=lda5.model,
+# #                        DILI6=lda6.model)
+# # nnet.model.list <- list(DILI1=nnet1.model,
+# #                         DILI3=nnet3.model,
+# #                         DILI5=nnet5.model,
+# #                         DILI6=nnet6.model)
+# 
+# # run predictions
+# run.predictions <- function(model.list, new.data, model.name='', resampled=F, test.data=T){
+# 
+#     output <- list()
+#     for (i in 1:length(model.list)){
+#         predicted.values <- as.vector(predict(model.list[[i]], newdata=new.data))
+#         predicted.values[predicted.values == 'Positive'] <- 0
+#         predicted.values[predicted.values == 'Negative'] <- 1
+#         output[[paste(names(model.list)[i], sep='')]] <- as.numeric(predicted.values)
+#     }
+# 
+#     # print(output)
+#     # str(do.call(cbind, output))
+#     result <- data.frame(cbind(CAM_ID=row.names(new.data), as.data.frame(do.call(cbind, output))))
+#     #row.names(result) <- row.names(new.data)
+#     #names(result)[1] <- 'CAM_ID'
+# 
+#     if (resampled==F) {
+#         if (test.data==T) {
+#             write.csv(result, file=paste('../output_files/p1.', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
+#         } else {
+#             write.csv(result, file='../output_files/mold_results_train_mold2_predictions.csv')
+#         }
+#     } else if (resampled==T) {
+#         if (test.data==T) {
+#             write.csv(result, file=paste('../output_files/p1.resampled-', model.name, '-predictions-camda2020-UND.csv', sep=''), row.names = F)
+#         } else {
+#             write.csv(result, file='../output_files/mold_results_train_mold2_resampled_predictions.csv')
+#         }
+#     }
+#     result
+# }
+# 
+# # run.predictions(rpart.model.list, mold2.validate, model.name = 'rpart', resampled=F, test.data = T)
+# # run.predictions(glm.model.list, mold2.validate, model.name = 'glm', resampled=F, test.data = T)
+# # run.predictions(svmLinear.model.list, mold2.validate, model.name = 'svmLinear', resampled=F, test.data = T)
+# # run.predictions(nb.model.list, mold2.validate, model.name = 'nb', resampled=F, test.data = T)
+# # run.predictions(svmPoly.model.list, mold2.validate, model.name = 'svmPoly', resampled=F, test.data = T)
+# # run.predictions(svmRadial.model.list, mold2.validate, model.name = 'svmRadial', resampled=F, test.data = T)
+# # run.predictions(lda.model.list, mold2.validate, model.name = 'lda', resampled=F, test.data = T)
+# # run.predictions(nnet.model.list, mold2.validate, model.name = 'nnet', resampled=F, test.data = T)
+# 
+# run.predictions(top1, mold2.validate, model.name = 'top1', resampled=F, test.data = T)
+# run.predictions(top2, mold2.validate, model.name = 'top2', resampled=F, test.data = T)
+# run.predictions(top3, mold2.validate, model.name = 'top3', resampled=F, test.data = T)
+# 
+# run.predictions(top1.res, mold2.validate, model.name = 'top1', resampled=T, test.data = T)
+# run.predictions(top2.res, mold2.validate, model.name = 'top2', resampled=T, test.data = T)
+# run.predictions(top3.res, mold2.validate, model.name = 'top3', resampled=T, test.data = T)
+# 
+# 
+# 
+# #run.predictions(best.res.model.list, mold2.validate, resampled=T, test.data = T)
+# 
+# # run predictions on the training set ===============
+# 
+# run.predictions(best.non.res.model.list, mold2.train.set, resampled=F, test.data = F)
+# run.predictions(best.res.model.list, mold2.train.set, resampled=T, test.data = F)
+# 
+# 
+# 

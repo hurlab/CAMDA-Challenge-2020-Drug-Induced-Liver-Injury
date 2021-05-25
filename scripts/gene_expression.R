@@ -867,7 +867,7 @@ trmerge100_dili1_svm2$Dili_1 <- as.character(trmerge100_dili1_svm[Training_CMID$
 
 trmerge100_dili1_svm2$Dili_1 <- sub(".", "", trmerge100_dili1_svm2$Dili_1)
 
-write.csv(trmerge100_dili1_svm2, "../output_files/Dili1_TrainingPrediction_merge100.csv", quote=FALSE)
+write.csv(trmerge100_dili1_svm2, "../predictions/Dili1_TrainingPrediction_merge100.csv", quote=FALSE)
 #
 trmerge250_dili1_svm <- predict(svm250.1, merged250setT)
 names(trmerge250_dili1_svm) <- rownames(merged250setT)
@@ -877,7 +877,7 @@ trmerge250_dili1_svm2$Dili_1 <- as.character(trmerge250_dili1_svm[Training_CMID$
 
 trmerge250_dili1_svm2$Dili_1 <- sub(".", "", trmerge250_dili1_svm2$Dili_1)
 
-write.csv(trmerge250_dili1_svm2, "../output_files/Dili1_TrainingPrediction_merge250.csv", quote=FALSE)
+write.csv(trmerge250_dili1_svm2, "../predictions/Dili1_TrainingPrediction_merge250.csv", quote=FALSE)
 #
 trmerge500_dili1_svm <- predict(svm500.1, merged500setT)
 names(trmerge500_dili1_svm) <- rownames(merged500setT)
@@ -887,7 +887,7 @@ trmerge500_dili1_svm2$Dili_1 <- as.character(trmerge500_dili1_svm[Training_CMID$
 
 trmerge500_dili1_svm2$Dili_1 <- sub(".", "", trmerge500_dili1_svm2$Dili_1)
 
-write.csv(trmerge500_dili1_svm2, "../output_files/Dili1_TrainingPrediction_merge500.csv", quote=FALSE)
+write.csv(trmerge500_dili1_svm2, "../predictions/Dili1_TrainingPrediction_merge500.csv", quote=FALSE)
 #
 trmerge1000_dili1_svm <- predict(svm1000.1, merged1000setT)
 names(trmerge1000_dili1_svm) <- rownames(merged1000setT)
@@ -897,7 +897,7 @@ trmerge1000_dili1_svm2$Dili_1 <- as.character(trmerge1000_dili1_svm[Training_CMI
 
 trmerge1000_dili1_svm2$Dili_1 <- sub(".", "", trmerge1000_dili1_svm2$Dili_1)
 
-write.csv(trmerge1000_dili1_svm2, "../output_files/Dili1_TrainingPrediction_merge1000.csv", quote=FALSE)
+write.csv(trmerge1000_dili1_svm2, "../predictions/Dili1_TrainingPrediction_merge1000.csv", quote=FALSE)
 ####
 
 trmerge100_dili3_svm <- predict(svm100.3, merged100setT)
@@ -908,7 +908,7 @@ trmerge100_dili3_svm2$Dili_3 <- as.character(trmerge100_dili3_svm[Training_CMID$
 
 trmerge100_dili3_svm2$Dili_3 <- sub(".", "", trmerge100_dili3_svm2$Dili_3)
 
-write.csv(trmerge100_dili3_svm2, "../output_files/Dili3_TrainingPrediction_merge100.csv", quote=FALSE)
+write.csv(trmerge100_dili3_svm2, "../predictions/Dili3_TrainingPrediction_merge100.csv", quote=FALSE)
 #
 trmerge250_dili3_svm <- predict(svm250.3, merged250setT)
 names(trmerge250_dili3_svm) <- rownames(merged250setT)
@@ -918,7 +918,7 @@ trmerge250_dili3_svm2$Dili_3 <- as.character(trmerge250_dili3_svm[Training_CMID$
 
 trmerge250_dili3_svm2$Dili_3 <- sub(".", "", trmerge250_dili3_svm2$Dili_3)
 
-write.csv(trmerge250_dili3_svm2, "../output_files/Dili3_TrainingPrediction_merge250.csv", quote=FALSE)
+write.csv(trmerge250_dili3_svm2, "../predictions/Dili3_TrainingPrediction_merge250.csv", quote=FALSE)
 #
 trmerge500_dili3_svm <- predict(svm500.3, merged500setT)
 names(trmerge500_dili3_svm) <- rownames(merged500setT)
@@ -928,7 +928,7 @@ trmerge500_dili3_svm2$Dili_3 <- as.character(trmerge500_dili3_svm[Training_CMID$
 
 trmerge500_dili3_svm2$Dili_3 <- sub(".", "", trmerge500_dili3_svm2$Dili_3)
 
-write.csv(trmerge500_dili3_svm2, "../output_files/Dili3_TrainingPrediction_merge500.csv", quote=FALSE)
+write.csv(trmerge500_dili3_svm2, "../predictions/Dili3_TrainingPrediction_merge500.csv", quote=FALSE)
 #
 trmerge1000_dili3_svm <- predict(svm1000.3, merged1000setT)
 names(trmerge1000_dili3_svm) <- rownames(merged1000setT)
@@ -938,7 +938,7 @@ trmerge1000_dili3_svm2$Dili_3 <- as.character(trmerge1000_dili3_svm[Training_CMI
 
 trmerge1000_dili3_svm2$Dili_3 <- sub(".", "", trmerge1000_dili3_svm2$Dili_3)
 
-write.csv(trmerge1000_dili3_svm2, "../output_files/Dili3_TrainingPrediction_merge1000.csv", quote=FALSE)
+write.csv(trmerge1000_dili3_svm2, "../predictions/Dili3_TrainingPrediction_merge1000.csv", quote=FALSE)
 ####
 trmerge100_dili5_svm <- predict(svm100.5, merged100setT)
 names(trmerge100_dili5_svm) <- rownames(merged100setT)
@@ -948,7 +948,7 @@ trmerge100_dili5_svm2$Dili_5 <- as.character(trmerge100_dili5_svm[Training_CMID$
 
 trmerge100_dili5_svm2$Dili_5 <- sub(".", "", trmerge100_dili5_svm2$Dili_5)
 
-write.csv(trmerge100_dili5_svm2, "../output_files/Dili5_TrainingPrediction_merge100.csv", quote=FALSE)
+write.csv(trmerge100_dili5_svm2, "../predictions/Dili5_TrainingPrediction_merge100.csv", quote=FALSE)
 #
 trmerge250_dili5_svm <- predict(svm250.1, merged250setT)
 names(trmerge250_dili5_svm) <- rownames(merged250setT)
@@ -958,7 +958,7 @@ trmerge250_dili5_svm2$Dili_5 <- as.character(trmerge250_dili5_svm[Training_CMID$
 
 trmerge250_dili5_svm2$Dili_5 <- sub(".", "", trmerge250_dili5_svm2$Dili_5)
 
-write.csv(trmerge250_dili5_svm2, "../output_files/Dili5_TrainingPrediction_merge250.csv", quote=FALSE)
+write.csv(trmerge250_dili5_svm2, "../predictions/Dili5_TrainingPrediction_merge250.csv", quote=FALSE)
 #
 trmerge500_dili5_svm <- predict(svm500.5, merged500setT)
 names(trmerge500_dili5_svm) <- rownames(merged500setT)
@@ -968,7 +968,7 @@ trmerge500_dili5_svm2$Dili_5 <- as.character(trmerge500_dili5_svm[Training_CMID$
 
 trmerge500_dili5_svm2$Dili_5 <- sub(".", "", trmerge500_dili5_svm2$Dili_5)
 
-write.csv(trmerge500_dili5_svm2, "../output_files/Dili5_TrainingPrediction_merge500.csv", quote=FALSE)
+write.csv(trmerge500_dili5_svm2, "../predictions/Dili5_TrainingPrediction_merge500.csv", quote=FALSE)
 #
 trmerge1000_dili5_svm <- predict(svm1000.5, merged1000setT)
 names(trmerge1000_dili5_svm) <- rownames(merged1000setT)
@@ -978,7 +978,7 @@ trmerge1000_dili5_svm2$Dili_5 <- as.character(trmerge1000_dili5_svm[Training_CMI
 
 trmerge1000_dili5_svm2$Dili_5 <- sub(".", "", trmerge1000_dili5_svm2$Dili_5)
 
-write.csv(trmerge1000_dili5_svm2, "../output_files/Dili5_TrainingPrediction_merge1000.csv", quote=FALSE)
+write.csv(trmerge1000_dili5_svm2, "../predictions/Dili5_TrainingPrediction_merge1000.csv", quote=FALSE)
 ####
 trmerge100_dili6_svm <- predict(svm100.6, merged100setT)
 names(trmerge100_dili6_svm) <- rownames(merged100setT)
@@ -988,7 +988,7 @@ trmerge100_dili6_svm2$Dili_6 <- as.character(trmerge100_dili6_svm[Training_CMID$
 
 trmerge100_dili6_svm2$Dili_6 <- sub(".", "", trmerge100_dili6_svm2$Dili_6)
 
-write.csv(trmerge100_dili6_svm2, "../output_files/Dili6_TrainingPrediction_merge100.csv", quote=FALSE)
+write.csv(trmerge100_dili6_svm2, "../predictions/Dili6_TrainingPrediction_merge100.csv", quote=FALSE)
 #
 trmerge250_dili6_svm <- predict(svm250.6, merged250setT)
 names(trmerge250_dili6_svm) <- rownames(merged250setT)
@@ -998,7 +998,7 @@ trmerge250_dili6_svm2$Dili_6 <- as.character(trmerge250_dili6_svm[Training_CMID$
 
 trmerge250_dili6_svm2$Dili_6 <- sub(".", "", trmerge250_dili6_svm2$Dili_6)
 
-write.csv(trmerge250_dili6_svm2, "../output_files/Dili6_TrainingPrediction_merge250.csv", quote=FALSE)
+write.csv(trmerge250_dili6_svm2, "../predictions/Dili6_TrainingPrediction_merge250.csv", quote=FALSE)
 #
 trmerge500_dili6_svm <- predict(svm500.6, merged500setT)
 names(trmerge500_dili6_svm) <- rownames(merged500setT)
@@ -1008,7 +1008,7 @@ trmerge500_dili6_svm2$Dili_6 <- as.character(trmerge500_dili6_svm[Training_CMID$
 
 trmerge500_dili6_svm2$Dili_6 <- sub(".", "", trmerge500_dili6_svm2$Dili_6)
 
-write.csv(trmerge500_dili6_svm2, "../output_files/Dili6_TrainingPrediction_merge500.csv", quote=FALSE)
+write.csv(trmerge500_dili6_svm2, "../predictions/Dili6_TrainingPrediction_merge500.csv", quote=FALSE)
 #
 trmerge1000_dili6_svm <- predict(svm1000.6, merged1000setT)
 names(trmerge1000_dili6_svm) <- rownames(merged1000setT)
@@ -1018,7 +1018,7 @@ trmerge1000_dili6_svm2$Dili_6 <- as.character(trmerge1000_dili6_svm[Training_CMI
 
 trmerge1000_dili6_svm2$Dili_6 <- sub(".", "", trmerge1000_dili6_svm2$Dili_6)
 
-write.csv(trmerge1000_dili6_svm2, "../output_files/Dili6_TrainingPrediction_merge1000.csv", quote=FALSE)
+write.csv(trmerge1000_dili6_svm2, "../predictions/Dili6_TrainingPrediction_merge1000.csv", quote=FALSE)
 
 
 ###########
@@ -1223,25 +1223,25 @@ pred100 <- merge(testmerge100_dili1_svm2, testmerge100_dili3_rf2, by="CAM_ID")
 pred100 <- merge(pred100, testmerge100_dili5_rf2, by="CAM_ID")
 pred100 <- merge(pred100, testmerge100_dili6_rf2, by="CAM_ID")
 colnames(pred100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(pred100, "../output_files/merge100_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(pred100, "../predictions/merge100_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 pred250 <- merge(testmerge250_dili1_svm2, testmerge100_dili3_rf2, by="CAM_ID")
 pred250 <- merge(pred250, testmerge250_dili5_rf2, by="CAM_ID")
 pred250 <- merge(pred250, testmerge250_dili6_rf2, by="CAM_ID")
 colnames(pred250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(pred250, "../output_files/merge250_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(pred250, "../predictions/merge250_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 pred500 <- merge(testmerge500_dili1_svm2, testmerge500_dili3_svm2, by="CAM_ID")
 pred500 <- merge(pred500, testmerge500_dili5_svm2, by="CAM_ID")
 pred500 <- merge(pred500, testmerge500_dili6_svm2, by="CAM_ID")
 colnames(pred500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(pred500, "../output_files/merge500_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(pred500, "../predictions/merge500_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 pred1000 <- merge(testmerge1000_dili1_nb2, testmerge1000_dili3_svm2, by="CAM_ID")
 pred1000 <- merge(pred1000, testmerge500_dili5_svm2, by="CAM_ID")
 pred1000 <- merge(pred1000, testmerge500_dili6_svm2, by="CAM_ID")
 colnames(pred1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(pred1000, "../output_files/merge1000_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(pred1000, "../predictions/merge1000_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 
 ##MCC values
@@ -1298,7 +1298,7 @@ colnames(dili6_100rf) <- c("5_fold_CV","DILI6")
 mcc_100merge <- merge(dili1_100svm, dili3_100rf, by="5_fold_CV")
 mcc_100merge <- merge(mcc_100merge, dili5_100rf, by="5_fold_CV")
 mcc_100merge <- merge(mcc_100merge, dili6_100rf, by="5_fold_CV")
-write.csv(mcc_100merge, "../output_files/merge100_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mcc_100merge, "../predictions/merge100_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
 
 ##
 
@@ -1354,7 +1354,7 @@ colnames(dili6_250rf) <- c("5_fold_CV","DILI6")
 mcc_250merge <- merge(dili1_250svm, dili3_250rf, by="5_fold_CV")
 mcc_250merge <- merge(mcc_250merge, dili5_250rf, by="5_fold_CV")
 mcc_250merge <- merge(mcc_250merge, dili6_250rf, by="5_fold_CV")
-write.csv(mcc_250merge, "../output_files/merge250_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mcc_250merge, "../predictions/merge250_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
 
 ##
 
@@ -1401,7 +1401,7 @@ colnames(dili6_500svm) <- c("5_fold_CV","DILI6")
 mcc_500merge <- merge(dili1_500svm, dili3_500svm, by="5_fold_CV")
 mcc_500merge <- merge(mcc_500merge, dili5_500svm, by="5_fold_CV")
 mcc_500merge <- merge(mcc_500merge, dili6_500svm, by="5_fold_CV")
-write.csv(mcc_500merge, "../output_files/merge500_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mcc_500merge, "../predictions/merge500_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
 
 ##
 
@@ -1448,7 +1448,7 @@ colnames(dili6_1000svm) <- c("5_fold_CV","DILI6")
 mcc_1000merge <- merge(dili1_1000nb, dili3_1000svm, by="5_fold_CV")
 mcc_1000merge <- merge(mcc_1000merge, dili5_1000svm, by="5_fold_CV")
 mcc_1000merge <- merge(mcc_1000merge, dili6_1000svm, by="5_fold_CV")
-write.csv(mcc_1000merge, "../output_files/merge1000_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mcc_1000merge, "../predictions/merge1000_p3p4p5p6p7p8-crossvalidation-camda2020-UND_FEB2021.csv", quote=FALSE, row.names=FALSE)
 
 #####
 ##Predictions for all models
@@ -2045,121 +2045,121 @@ predsvm100 <- merge(testmerge100_dili1_svm2, testmerge100_dili3_svm2, by="CAM_ID
 predsvm100 <- merge(predsvm100, testmerge100_dili5_svm2, by="CAM_ID")
 predsvm100 <- merge(predsvm100, testmerge100_dili6_svm2, by="CAM_ID")
 colnames(predsvm100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predsvm100, "../output_files/merge100svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predsvm100, "../predictions/merge100svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predsvm250 <- merge(testmerge250_dili1_svm2, testmerge250_dili3_svm2, by="CAM_ID")
 predsvm250 <- merge(predsvm250, testmerge250_dili5_svm2, by="CAM_ID")
 predsvm250 <- merge(predsvm250, testmerge250_dili6_svm2, by="CAM_ID")
 colnames(predsvm250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predsvm250, "../output_files/merge250svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predsvm250, "../predictions/merge250svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predsvm500 <- merge(testmerge500_dili1_svm2, testmerge500_dili3_svm2, by="CAM_ID")
 predsvm500 <- merge(predsvm500, testmerge500_dili5_svm2, by="CAM_ID")
 predsvm500 <- merge(predsvm500, testmerge500_dili6_svm2, by="CAM_ID")
 colnames(predsvm500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predsvm500, "../output_files/merge500svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predsvm500, "../predictions/merge500svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predsvm1000 <- merge(testmerge1000_dili1_svm2, testmerge1000_dili3_svm2, by="CAM_ID")
 predsvm1000 <- merge(predsvm1000, testmerge1000_dili5_svm2, by="CAM_ID")
 predsvm1000 <- merge(predsvm1000, testmerge1000_dili6_svm2, by="CAM_ID")
 colnames(predsvm1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predsvm1000, "../output_files/merge1000svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predsvm1000, "../predictions/merge1000svm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrf100 <- merge(testmerge100_dili1_rf2, testmerge100_dili3_rf2, by="CAM_ID")
 predrf100 <- merge(predrf100, testmerge100_dili5_rf2, by="CAM_ID")
 predrf100 <- merge(predrf100, testmerge100_dili6_rf2, by="CAM_ID")
 colnames(predrf100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrf100, "../output_files/merge100rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrf100, "../predictions/merge100rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrf250 <- merge(testmerge250_dili1_rf2, testmerge250_dili3_rf2, by="CAM_ID")
 predrf250 <- merge(predrf250, testmerge250_dili5_rf2, by="CAM_ID")
 predrf250 <- merge(predrf250, testmerge250_dili6_rf2, by="CAM_ID")
 colnames(predrf250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrf250, "../output_files/merge250rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrf250, "../predictions/merge250rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrf500 <- merge(testmerge500_dili1_rf2, testmerge500_dili3_rf2, by="CAM_ID")
 predrf500 <- merge(predrf500, testmerge500_dili5_rf2, by="CAM_ID")
 predrf500 <- merge(predrf500, testmerge500_dili6_rf2, by="CAM_ID")
 colnames(predrf500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrf500, "../output_files/merge500rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrf500, "../predictions/merge500rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrf1000 <- merge(testmerge1000_dili1_rf2, testmerge1000_dili3_rf2, by="CAM_ID")
 predrf1000 <- merge(predrf1000, testmerge1000_dili5_rf2, by="CAM_ID")
 predrf1000 <- merge(predrf1000, testmerge1000_dili6_rf2, by="CAM_ID")
 colnames(predrf1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrf1000, "../output_files/merge1000rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrf1000, "../predictions/merge1000rf_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predglm100 <- merge(testmerge100_dili1_glm2, testmerge100_dili3_glm2, by="CAM_ID")
 predglm100 <- merge(predglm100, testmerge100_dili5_glm2, by="CAM_ID")
 predglm100 <- merge(predglm100, testmerge100_dili6_glm2, by="CAM_ID")
 colnames(predglm100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predglm100, "../output_files/merge100glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predglm100, "../predictions/merge100glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predglm250 <- merge(testmerge250_dili1_glm2, testmerge250_dili3_glm2, by="CAM_ID")
 predglm250 <- merge(predglm250, testmerge250_dili5_glm2, by="CAM_ID")
 predglm250 <- merge(predglm250, testmerge250_dili6_glm2, by="CAM_ID")
 colnames(predglm250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predglm250, "../output_files/merge250glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predglm250, "../predictions/merge250glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predglm500 <- merge(testmerge500_dili1_glm2, testmerge500_dili3_glm2, by="CAM_ID")
 predglm500 <- merge(predglm500, testmerge500_dili5_glm2, by="CAM_ID")
 predglm500 <- merge(predglm500, testmerge500_dili6_glm2, by="CAM_ID")
 colnames(predglm500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predglm500, "../output_files/merge500glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predglm500, "../predictions/merge500glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predglm1000 <- merge(testmerge1000_dili1_glm2, testmerge1000_dili3_glm2, by="CAM_ID")
 predglm1000 <- merge(predglm1000, testmerge1000_dili5_glm2, by="CAM_ID")
 predglm1000 <- merge(predglm1000, testmerge1000_dili6_glm2, by="CAM_ID")
 colnames(predglm1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predglm1000, "../output_files/merge1000glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predglm1000, "../predictions/merge1000glm_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrpart100 <- merge(testmerge100_dili1_rpart2, testmerge100_dili3_rpart2, by="CAM_ID")
 predrpart100 <- merge(predrpart100, testmerge100_dili5_rpart2, by="CAM_ID")
 predrpart100 <- merge(predrpart100, testmerge100_dili6_rpart2, by="CAM_ID")
 colnames(predrpart100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrpart100, "../output_files/merge100rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrpart100, "../predictions/merge100rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrpart250 <- merge(testmerge250_dili1_rpart2, testmerge250_dili3_rpart2, by="CAM_ID")
 predrpart250 <- merge(predrpart250, testmerge250_dili5_rpart2, by="CAM_ID")
 predrpart250 <- merge(predrpart250, testmerge250_dili6_rpart2, by="CAM_ID")
 colnames(predrpart250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrpart250, "../output_files/merge250rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrpart250, "../predictions/merge250rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrpart500 <- merge(testmerge500_dili1_rpart2, testmerge500_dili3_rpart2, by="CAM_ID")
 predrpart500 <- merge(predrpart500, testmerge500_dili5_rpart2, by="CAM_ID")
 predrpart500 <- merge(predrpart500, testmerge500_dili6_rpart2, by="CAM_ID")
 colnames(predrpart500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrpart500, "../output_files/merge500rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrpart500, "../predictions/merge500rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 predrpart1000 <- merge(testmerge1000_dili1_rpart2, testmerge1000_dili3_rpart2, by="CAM_ID")
 predrpart1000 <- merge(predrpart1000, testmerge1000_dili5_rpart2, by="CAM_ID")
 predrpart1000 <- merge(predrpart1000, testmerge1000_dili6_rpart2, by="CAM_ID")
 colnames(predrpart1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(predrpart1000, "../output_files/merge1000rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(predrpart1000, "../predictions/merge1000rpart_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 prednb100 <- merge(testmerge100_dili1_nb2, testmerge100_dili3_nb2, by="CAM_ID")
 prednb100 <- merge(prednb100, testmerge100_dili5_nb2, by="CAM_ID")
 prednb100 <- merge(prednb100, testmerge100_dili6_nb2, by="CAM_ID")
 colnames(prednb100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(prednb100, "../output_files/merge100nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(prednb100, "../predictions/merge100nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 prednb250 <- merge(testmerge250_dili1_nb2, testmerge250_dili3_nb2, by="CAM_ID")
 prednb250 <- merge(prednb250, testmerge250_dili5_nb2, by="CAM_ID")
 prednb250 <- merge(prednb250, testmerge250_dili6_nb2, by="CAM_ID")
 colnames(prednb250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(prednb250, "../output_files/merge250nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(prednb250, "../predictions/merge250nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 prednb500 <- merge(testmerge500_dili1_nb2, testmerge500_dili3_nb2, by="CAM_ID")
 prednb500 <- merge(prednb500, testmerge500_dili5_nb2, by="CAM_ID")
 prednb500 <- merge(prednb500, testmerge500_dili6_nb2, by="CAM_ID")
 colnames(prednb500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(prednb500, "../output_files/merge500nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(prednb500, "../predictions/merge500nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 prednb1000 <- merge(testmerge1000_dili1_nb2, testmerge1000_dili3_nb2, by="CAM_ID")
 prednb1000 <- merge(prednb1000, testmerge1000_dili5_nb2, by="CAM_ID")
 prednb1000 <- merge(prednb1000, testmerge1000_dili6_nb2, by="CAM_ID")
 colnames(prednb1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(prednb1000, "../output_files/merge1000nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(prednb1000, "../predictions/merge1000nb_p3p4p5p6p7p8-predictions-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 #######
 ##MCC All Models
@@ -2969,120 +2969,128 @@ mccsvm100 <- merge(dili1_100svm, dili3_100svm, by="5_fold_CV")
 mccsvm100 <- merge(mccsvm100, dili5_100svm, by="5_fold_CV")
 mccsvm100 <- merge(mccsvm100, dili6_100svm, by="5_fold_CV")
 colnames(mccsvm100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccsvm100, "../output_files/merge100svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccsvm100, "../predictions/merge100svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 mccsvm250 <- merge(dili1_250svm, dili3_250svm, by="5_fold_CV")
 mccsvm250 <- merge(mccsvm250, dili5_100svm, by="5_fold_CV")
 mccsvm250 <- merge(mccsvm250, dili6_100svm, by="5_fold_CV")
 colnames(mccsvm250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccsvm250, "../output_files/merge250svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccsvm250, "../predictions/merge250svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccsvm500 <- merge(dili1_500svm, dili3_500svm, by="5_fold_CV")
 mccsvm500 <- merge(mccsvm500, dili5_500svm, by="5_fold_CV")
 mccsvm500 <- merge(mccsvm500, dili6_500svm, by="5_fold_CV")
 colnames(mccsvm500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccsvm500, "../output_files/merge500svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccsvm500, "../predictions/merge500svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccsvm1000 <- merge(dili1_1000svm, dili3_1000svm, by="5_fold_CV")
 mccsvm1000 <- merge(mccsvm1000, dili5_1000svm, by="5_fold_CV")
 mccsvm1000 <- merge(mccsvm1000, dili6_1000svm, by="5_fold_CV")
 colnames(mccsvm1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccsvm1000, "../output_files/merge1000svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccsvm1000, "../predictions/merge1000svm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccrf100 <- merge(dili1_100rf, dili3_100rf, by="5_fold_CV")
 mccrf100 <- merge(mccrf100, dili5_100rf, by="5_fold_CV")
 mccrf100 <- merge(mccrf100, dili6_100rf, by="5_fold_CV")
 colnames(mccrf100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrf100, "../output_files/merge100rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrf100, "../predictions/merge100rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 mccrf250 <- merge(dili1_250rf, dili3_250rf, by="5_fold_CV")
 mccrf250 <- merge(mccrf250, dili5_100rf, by="5_fold_CV")
 mccrf250 <- merge(mccrf250, dili6_100rf, by="5_fold_CV")
 colnames(mccrf250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrf250, "../output_files/merge250rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrf250, "../predictions/merge250rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccrf500 <- merge(dili1_500rf, dili3_500rf, by="5_fold_CV")
 mccrf500 <- merge(mccrf500, dili5_500rf, by="5_fold_CV")
 mccrf500 <- merge(mccrf500, dili6_500rf, by="5_fold_CV")
 colnames(mccrf500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrf500, "../output_files/merge500rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrf500, "../predictions/merge500rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccrf1000 <- merge(dili1_1000rf, dili3_1000rf, by="5_fold_CV")
 mccrf1000 <- merge(mccrf1000, dili5_1000rf, by="5_fold_CV")
 mccrf1000 <- merge(mccrf1000, dili6_1000rf, by="5_fold_CV")
 colnames(mccrf1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrf1000, "../output_files/merge1000rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrf1000, "../predictions/merge1000rf_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccglm100 <- merge(dili1_100glm, dili3_100glm, by="5_fold_CV")
 mccglm100 <- merge(mccglm100, dili5_100glm, by="5_fold_CV")
 mccglm100 <- merge(mccglm100, dili6_100glm, by="5_fold_CV")
 colnames(mccglm100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccglm100, "../output_files/merge100glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccglm100, "../predictions/merge100glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 mccglm250 <- merge(dili1_250glm, dili3_250glm, by="5_fold_CV")
 mccglm250 <- merge(mccglm250, dili5_100glm, by="5_fold_CV")
 mccglm250 <- merge(mccglm250, dili6_100glm, by="5_fold_CV")
 colnames(mccglm250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccglm250, "../output_files/merge250glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccglm250, "../predictions/merge250glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccglm500 <- merge(dili1_500glm, dili3_500glm, by="5_fold_CV")
 mccglm500 <- merge(mccglm500, dili5_500glm, by="5_fold_CV")
 mccglm500 <- merge(mccglm500, dili6_500glm, by="5_fold_CV")
 colnames(mccglm500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccglm500, "../output_files/merge500glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccglm500, "../predictions/merge500glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccglm1000 <- merge(dili1_1000glm, dili3_1000glm, by="5_fold_CV")
 mccglm1000 <- merge(mccglm1000, dili5_1000glm, by="5_fold_CV")
 mccglm1000 <- merge(mccglm1000, dili6_1000glm, by="5_fold_CV")
 colnames(mccglm1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccglm1000, "../output_files/merge1000glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccglm1000, "../predictions/merge1000glm_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccrpart100 <- merge(dili1_100rpart, dili3_100rpart, by="5_fold_CV")
 mccrpart100 <- merge(mccrpart100, dili5_100rpart, by="5_fold_CV")
 mccrpart100 <- merge(mccrpart100, dili6_100rpart, by="5_fold_CV")
 colnames(mccrpart100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrpart100, "../output_files/merge100rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrpart100, "../predictions/merge100rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 mccrpart250 <- merge(dili1_250rpart, dili3_250rpart, by="5_fold_CV")
 mccrpart250 <- merge(mccrpart250, dili5_100rpart, by="5_fold_CV")
 mccrpart250 <- merge(mccrpart250, dili6_100rpart, by="5_fold_CV")
 colnames(mccrpart250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrpart250, "../output_files/merge250rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrpart250, "../predictions/merge250rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccrpart500 <- merge(dili1_500rpart, dili3_500rpart, by="5_fold_CV")
 mccrpart500 <- merge(mccrpart500, dili5_500rpart, by="5_fold_CV")
 mccrpart500 <- merge(mccrpart500, dili6_500rpart, by="5_fold_CV")
 colnames(mccrpart500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrpart500, "../output_files/merge500rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrpart500, "../predictions/merge500rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccrpart1000 <- merge(dili1_1000rpart, dili3_1000rpart, by="5_fold_CV")
 mccrpart1000 <- merge(mccrpart1000, dili5_1000rpart, by="5_fold_CV")
 mccrpart1000 <- merge(mccrpart1000, dili6_1000rpart, by="5_fold_CV")
 colnames(mccrpart1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccrpart1000, "../output_files/merge1000rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccrpart1000, "../predictions/merge1000rpart_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccnb100 <- merge(dili1_100nb, dili3_100nb, by="5_fold_CV")
 mccnb100 <- merge(mccnb100, dili5_100nb, by="5_fold_CV")
 mccnb100 <- merge(mccnb100, dili6_100nb, by="5_fold_CV")
 colnames(mccnb100) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccnb100, "../output_files/merge100nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccnb100, "../predictions/merge100nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv", quote=FALSE, row.names=FALSE)
 
 mccnb250 <- merge(dili1_250nb, dili3_250nb, by="5_fold_CV")
 mccnb250 <- merge(mccnb250, dili5_100nb, by="5_fold_CV")
 mccnb250 <- merge(mccnb250, dili6_100nb, by="5_fold_CV")
 colnames(mccnb250) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccnb250, "../output_files/merge250nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccnb250, "../predictions/merge250nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccnb500 <- merge(dili1_500nb, dili3_500nb, by="5_fold_CV")
 mccnb500 <- merge(mccnb500, dili5_500nb, by="5_fold_CV")
 mccnb500 <- merge(mccnb500, dili6_500nb, by="5_fold_CV")
 colnames(mccnb500) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccnb500, "../output_files/merge500nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccnb500, "../predictions/merge500nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 mccnb1000 <- merge(dili1_1000nb, dili3_1000nb, by="5_fold_CV")
 mccnb1000 <- merge(mccnb1000, dili5_1000nb, by="5_fold_CV")
 mccnb1000 <- merge(mccnb1000, dili6_1000nb, by="5_fold_CV")
 colnames(mccnb1000) <- c("CAM_ID","DILI1","DILI3","DILI5","DILI6")
-write.csv(mccnb1000, "../output_files/merge1000nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
+write.csv(mccnb1000, "../predictions/merge1000nb_p3p4p5p6p7p8-crossvalidation-camda2020-UND_MAR2021.csv.csv", quote=FALSE, row.names=FALSE)
 
 
+# save the models
+expr_list <- mget(ls())
+classes <- lapply(expr_list, function(x){
+    class(x)[1]
+})
+br_models <- names(classes[classes=='train'])
+expr_models_list <- mget(br_models)
+save(expr_models_list, file='../models/gene_expr_data.RData')

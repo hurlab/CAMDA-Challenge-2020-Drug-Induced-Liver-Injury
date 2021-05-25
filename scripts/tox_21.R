@@ -16,7 +16,7 @@ source('../scripts/packages.R')
 tox.data <- read.csv('../data/p9-tox21-camda2020.csv',
                      header=T, stringsAsFactors=F, row.names = 'CAM_ID')
 
-dim(tox.data)
+#dim(tox.data)
 # target/label/training
 target.data <- read.csv('../data/targets-camda2020.csv',
                         header=T, stringsAsFactors = F, check.names = F)
@@ -33,7 +33,7 @@ names(complete.columns)[1] <- 'No.of.NAs'
 complete.col.names <- rownames(subset(complete.columns, No.of.NAs==0))
 
 
-table(complete.columns$No.of.NAs)
+#table(complete.columns$No.of.NAs)
 
 # remove NAs
 comp.tox.train <- tox.train[complete.cases(tox.train), ]
@@ -41,9 +41,9 @@ highly.corr <- findCorrelation(cor(comp.tox.train), cutoff=0.82)
 comp.tox.train <- comp.tox.train[, -highly.corr]
 
 
-corrplot::corrplot(cor(comp.tox.train[, -ncol(comp.tox.train)]))
+#corrplot::corrplot(cor(comp.tox.train[, -ncol(comp.tox.train)]))
 
-View(cor(comp.tox.train))
+#View(cor(comp.tox.train))
 
 # target data for dili 1 to 6
 # target.labels.1 <- as.factor(comp.tox.1$Class)
@@ -100,8 +100,8 @@ general.ctrl <- trainControl(method='repeatedcv',
                              allowParallel = T)
 
 # cluster
-cl <- makeCluster(detectCores() - 56)
-registerDoParallel(cl)
+#cl <- makeCluster(detectCores() - 56)
+registerDoParallel(clusters)
 
 print('Started training tox models...')
 
@@ -189,9 +189,14 @@ summary(rpart1.res)
 
 # svmRadial==========
 set.seed(1)
-svmRadial1.scaled.model <- train(x=comp.tox.train, y=target.labels.1,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.1, levels = c('Positive', 'Negative')), comp.tox.train))
+svmRadial1.scaled.model <- train(Class~., data=tr_data,
                                  method='svmRadial', trControl = general.ctrl, metric='ROC',
                                  tuneLength=50)
+
+# svmRadial1.scaled.model <- train(x=comp.tox.train, y=target.labels.1,
+#                                  method='svmRadial', trControl = general.ctrl, metric='ROC',
+#                                  tuneLength=50)
 
 set.seed(1)
 svmRadial1.rose.model <- train(Class ~., data=rose1.tox,
@@ -211,7 +216,8 @@ summary(svmRadial1.res)
 
 # svmPoly==========
 set.seed(1)
-svmPoly1.scaled.model <- train(x=comp.tox.train, y=target.labels.1,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.1, levels = c('Positive', 'Negative')), comp.tox.train))
+svmPoly1.scaled.model <- train(Class~., data=tr_data,
                                method='svmPoly', trControl = general.ctrl, metric='ROC')
 
 set.seed(1)
@@ -357,7 +363,8 @@ summary(rpart3.res)
 
 # svmRadial==========
 set.seed(1)
-svmRadial3.scaled.model <- train(x=comp.tox.train, y=target.labels.3,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.3, levels = c('Positive', 'Negative')), comp.tox.train))
+svmRadial3.scaled.model <- train(Class~., data=tr_data,
                                  method='svmRadial', trControl = general.ctrl, metric='ROC',
                                  tuneLength=50)
 
@@ -378,7 +385,8 @@ summary(svmRadial3.res)
 
 # svmPoly==========
 set.seed(1)
-svmPoly3.scaled.model <- train(x=comp.tox.train, y=target.labels.3,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.3, levels = c('Positive', 'Negative')), comp.tox.train))
+svmPoly3.scaled.model <- train(Class~., data = tr_data,
                                method='svmPoly', trControl = general.ctrl, metric='ROC')
 
 set.seed(1)
@@ -524,9 +532,14 @@ summary(rpart5.res)
 
 # svmRadial==========
 set.seed(1)
-svmRadial5.scaled.model <- train(x=comp.tox.train, y=target.labels.5,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.5, levels = c('Positive', 'Negative')), comp.tox.train))
+svmRadial5.scaled.model <- train(Class ~ ., data=tr_data,
                                  method='svmRadial', trControl = general.ctrl, metric='ROC',
                                  tuneLength=50)
+# 
+# svmRadial5.scaled.model <- train(x=comp.tox.train, y=target.labels.5,
+#                                  method='svmRadial', trControl = general.ctrl, metric='ROC',
+#                                  tuneLength=50)
 
 set.seed(1)
 svmRadial5.rose.model <- train(Class ~., data=rose5.tox,
@@ -545,7 +558,8 @@ summary(svmRadial5.res)
 
 # svmPoly==========
 set.seed(1)
-svmPoly5.scaled.model <- train(x=comp.tox.train, y=target.labels.5,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.5, levels = c('Positive', 'Negative')), comp.tox.train))
+svmPoly5.scaled.model <- train(Class~., data=tr_data,
                                method='svmPoly', trControl = general.ctrl, metric='ROC')
 
 set.seed(1)
@@ -691,7 +705,8 @@ summary(rpart6.res)
 
 # svmRadial==========
 set.seed(1)
-svmRadial6.scaled.model <- train(x=comp.tox.train, y=target.labels.6,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.6, levels = c('Positive', 'Negative')), comp.tox.train))
+svmRadial6.scaled.model <- train(Class~., data=tr_data,
                                  method='svmRadial', trControl = general.ctrl, metric='ROC',
                                  tuneLength=50)
 
@@ -712,7 +727,8 @@ summary(svmRadial6.res)
 
 # svmPoly==========
 set.seed(1)
-svmPoly6.scaled.model <- train(x=comp.tox.train, y=target.labels.6,
+tr_data <- as.data.frame(cbind(Class=factor(target.labels.6, levels = c('Positive', 'Negative')), comp.tox.train))
+svmPoly6.scaled.model <- train(Class~., data=tr_data,
                                method='svmPoly', trControl = general.ctrl, metric='ROC')
 
 set.seed(1)
@@ -776,7 +792,7 @@ summary(nb6.res)
 
 print('Finished training tox models...')
 
-
+stopCluster(clusters)
 # 
 
 
@@ -869,6 +885,17 @@ save(tox_models, file = '../models/tox_models.RData')
 
 rm(list=ls())
 
+# tox_models$tox_dili1$svmRadial1 <- svmRadial1.scaled.model
+# tox_models$tox_dili1$svmPoly1 <- svmPoly1.scaled.model
+# 
+# tox_models$tox_dili3$svmRadial3 <- svmRadial3.scaled.model
+# tox_models$tox_dili3$svmPoly3 <- svmPoly3.scaled.model
+# 
+# tox_models$tox_dili5$svmRadial5 <- svmRadial5.scaled.model
+# tox_models$tox_dili5$svmPoly5 <- svmPoly5.scaled.model
+# 
+# tox_models$tox_dili6$svmRadial6 <- svmRadial6.scaled.model
+# tox_models$tox_dili6$svmPoly6 <- svmPoly6.scaled.model
 
 #save.image(file='/extData/NGS/hurlab/temi/projects/camda/tox21/latest_tox21_data.RData')
 

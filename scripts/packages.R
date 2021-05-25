@@ -1,8 +1,6 @@
 
 
 # a script that holds needed packages.
-
-
 curr <- rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(curr))
 
@@ -40,6 +38,15 @@ library(ROSE)
 library(bimba)
 library(mccr)
 library(tidyr)
+library(RColorBrewer)
+library(reshape2)
+library(stringr)
+library(gridExtra)
+library(ggrepel)
+library(ggpubr)
+library(grid)
+library(cowplot)
+library(rcartocolor)
 
 
 
@@ -70,83 +77,76 @@ mcc <- function(x.model){
     mcc
 }
 
-collate.metrics <- function(sum.list, x.list, dili.name='', dt='', write.file=F){
+
+collate_metrics <- function(models_list){
     
-    # """ This function collates metrics for a list of models """
+    # get all metrics
+    mets <- lapply(models_list, function(dt){
+        lapply(dt, function(md){
+            
+            cc <- caret::confusionMatrix(table(md$pred[['pred']], md$pred[['obs']]))
+            cc$byClass %>%
+                as.data.frame() %>%
+                t() %>%
+                as.data.frame() %>%
+                dplyr::mutate(Accuracy=cc$overall[['Accuracy']])
+            
+        })
+    }) %>% unlist(., recursive = F) %>%
+        do.call(rbind, .)
     
-    out.roc <- list()
-    out.sens <- list()
-    out.spec <- list()
-    out.mcc <- list()
+    # get ROC value
+    class_sum <- lapply(models_list, function(dt){
+        lapply(dt, function(md){
+            twoClassSummary(md$pred, lev=levels(md$pred[['obs']]))
+        })
+    }) %>% unlist(., recursive = F) %>%
+        do.call(rbind, .)
     
-    for(i in 1:length(sum.list)){
-        roc <- as.data.frame(sum.list[[i]]$statistics$ROC[, 'Mean'])
-        roc$dataset <- row.names(roc)
-        row.names(roc) <- NULL
-        out.roc[[i]] <- roc
-        
-        sens <- as.data.frame(sum.list[[i]]$statistics$Sens[, 'Mean'])
-        sens$dataset <- row.names(sens)
-        row.names(sens) <- NULL
-        out.sens[[i]] <- sens
-        
-        spec <- as.data.frame(sum.list[[i]]$statistics$Spec[, 'Mean'])
-        spec$dataset <- row.names(spec)
-        row.names(spec) <- NULL
-        out.spec[[i]] <- spec
-    }
+    # get mccs
+    mccs <- lapply(models_list, function(dt){
+        lapply(dt, function(md){
+            data.frame(mcc=mcc(md))
+        })
+    }) %>%
+        unlist(., recursive = F) %>%
+        do.call(rbind, .)
     
-    for(i in 1:length(x.list)){
-        mcc.i <- data.frame(dataset=names(x.list)[i], mcc=mcc(x.list[[i]]))
-        out.mcc[[i]] <- mcc.i
-    }
+    # merge all and select the columns needed
+    metrics_df <- merge(mets, class_sum, by=0) %>%
+        merge(., mccs, by.x='Row.names', by.y=0) %>%
+        separate(col='Row.names', into=c('dili data', 'models'), sep='_') %>%
+        mutate(models=sub('\\.', '_', .$models)) %>%
+        separate(col='models', into=c('dili type', 'models'), sep='_') %>%
+        dplyr::select(1:3, ROC, Sensitivity, Specificity, mcc, `Balanced Accuracy`, Accuracy, Precision, F1) 
     
-    roc <- do.call(rbind, out.roc)
-    names(roc)[1] <- 'ROC'
-    sens <- do.call(rbind, out.sens)
-    names(sens)[1] <- 'Sens'
-    spec <- do.call(rbind, out.spec)
-    names(spec)[1] <- 'Spec'
-    mcc <- do.call(rbind, out.mcc)
+    metrics_df$`training type` <- ifelse(grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', metrics_df$models), 
+                                         'resampled', 'non-resampled')
     
-    first <- merge(roc, sens, by='dataset')
-    mid <- merge(first, spec, by='dataset')
-    last <- merge(mid, mcc, by='dataset')
-    last <- last %>% arrange(desc(ROC)) 
+    metrics_df <- relocate(metrics_df, `training type`, .before=ROC) %>%
+        dplyr::arrange(desc(ROC))
     
-    last$training_type <- ifelse(grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', last$dataset), 'resampled', 'non-resampled')
-    names(last)[1] <- 'model'
+    metrics_df
     
-    if(write.file==T){
-        write.csv(last, file = paste('../output_files/', dt, '.', dili.name, '.csv', sep=''), row.names=F)
-    } else {
-        return(last)
-    }
 }
 
 select.top.three <- function(model.metrics, x.list, n=3){
     
     tops <- model.metrics %>% 
-        group_by(training_type) %>%
+        group_by(`training type`) %>%
         dplyr::arrange(desc(ROC)) %>%
         filter(row_number() %in% c(1:n))
     
     #x.list <- unlist(x.list, recursive = F)
     
-    tt <- x.list[names(x.list) %in% tops$model]
+    tt <- x.list[names(x.list) %in% tops$models]
     
     return(list(top_models=tt, top_metrics=tops))
     
 }
 
-# tt <- select.top.three(tst)
-# 
-# model.list.1[names(model.list.1) %in% tt$model]
-# 
-# # tst$training_type <- ifelse(grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', tst$dataset), 'resampled', 'non-resampled')
-# # 
-# # grepl('.*(\\brose\\b).*|.*(\\bup\\b).*|.*(\\bsmote\\b).*', tst$dataset)
-# 
-# training.set %>%
-#     filter(Training_Validation=='Training Set') %>% .$DILI5 %>%
-#     table()
+
+
+
+
+

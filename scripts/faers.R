@@ -34,7 +34,7 @@ names(complete.columns)[1] <- 'No.of.NAs'
 complete.col.names <- rownames(subset(complete.columns, No.of.NAs==0))
 
 
-table(complete.columns$No.of.NAs)
+#table(complete.columns$No.of.NAs)
 
 # processing this dataset
 faers.train <- subset(faers.train, all_gender_all != 0)
@@ -86,8 +86,8 @@ up.faers6.train <- ovun.sample(Class~., data=data.frame(cbind(faers.train, Class
 # })
 
 # cluster
-cl <- makeCluster(100)
-registerDoParallel(cl)
+#cl <- makeCluster(detectCores() - 56)
+registerDoParallel(clusters)
 
 # feature selection ============
 rfe.ctrl <- rfeControl(method = "repeatedcv", repeats = 5, number=100, 
@@ -176,6 +176,7 @@ glm1.up.model <- train(x=up.faers1.train[, -ncol(up.faers1.train)][, rfe1],
 
 
 # rpart ================
+
 set.seed(1)
 rpart1.model <- train(x=faers.train, y=target.labels.1, 
                       method='rpart', trControl = general.ctrl, metric='ROC',
@@ -190,18 +191,25 @@ rpart1.up.model <- train(x=up.faers1.train[, -ncol(up.faers1.train)][, rfe1],
 
 
 # svmPoly ================
+tr_data <- as.data.frame(cbind(Class=target.labels.1, faers.train)) %>%
+    dplyr::slice(., sample(1:n()))
 set.seed(1)
-svmPoly1.model <- train(x=faers.train, y=target.labels.1, 
+svmPoly1.model <- train(Class~., data=tr_data, 
                         method='svmPoly', trControl = general.ctrl, metric='ROC',
                         preProcess = c('scale', 'center'))
+# svmPoly1.model <- train(x=faers.train, y=target.labels.1, 
+#                         method='svmPoly', trControl = general.ctrl, metric='ROC',
+#                         preProcess = c('scale', 'center'))
 
 
 set.seed(1)
-svmPoly1.up.model <- train(x=up.faers1.train[, -ncol(up.faers1.train)][, rfe1], 
-                           y=as.factor(up.faers1.train$Class), 
+tr_data <- as.data.frame(cbind(Class=factor(up.faers1.train$Class, levels = c('Negative', 'Positive')),
+                               up.faers1.train[, -ncol(up.faers1.train)][, rfe1])) %>%
+    dplyr::slice(., sample(1:n()))
+
+svmPoly1.up.model <- train(Class~., data=tr_data, 
                            method='svmPoly', trControl = general.ctrl, metric='ROC',
                            preProcess = c('scale', 'center'))
-
 
 # nnet ================
 set.seed(1)
@@ -292,15 +300,20 @@ rpart3.up.model <- train(x=up.faers3.train[, -ncol(up.faers3.train)][, rfe3],
 
 
 # svmPoly ================
+tr_data <- as.data.frame(cbind(Class=target.labels.3, faers.train)) %>%
+    dplyr::slice(., sample(1:n()))
 set.seed(1)
-svmPoly3.model <- train(x=faers.train, y=target.labels.3, 
+svmPoly3.model <- train(Class~., data=tr_data, 
                         method='svmPoly', trControl = general.ctrl, metric='ROC',
                         preProcess = c('scale', 'center'))
 
 
 set.seed(1)
-svmPoly3.up.model <- train(x=up.faers3.train[, -ncol(up.faers3.train)][, rfe3], 
-                           y=as.factor(up.faers3.train$Class), 
+tr_data <- as.data.frame(cbind(Class=factor(up.faers3.train$Class, levels = c('Negative', 'Positive')),
+                               up.faers3.train[, -ncol(up.faers3.train)][, rfe3])) %>%
+    dplyr::slice(., sample(1:n()))
+
+svmPoly3.up.model <- train(Class~., data=tr_data, 
                            method='svmPoly', trControl = general.ctrl, metric='ROC',
                            preProcess = c('scale', 'center'))
 
@@ -394,15 +407,20 @@ rpart5.up.model <- train(x=up.faers5.train[, -ncol(up.faers5.train)][, rfe5],
 
 
 # svmPoly ================
+tr_data <- as.data.frame(cbind(Class=target.labels.5, faers.train)) %>%
+    dplyr::slice(., sample(1:n()))
 set.seed(1)
-svmPoly5.model <- train(x=faers.train, y=target.labels.5, 
+svmPoly5.model <- train(Class~., data=tr_data, 
                         method='svmPoly', trControl = general.ctrl, metric='ROC',
                         preProcess = c('scale', 'center'))
 
 
 set.seed(1)
-svmPoly5.up.model <- train(x=up.faers5.train[, -ncol(up.faers5.train)][, rfe5], 
-                           y=as.factor(up.faers5.train$Class), 
+tr_data <- as.data.frame(cbind(Class=factor(up.faers5.train$Class, levels = c('Negative', 'Positive')),
+                               up.faers5.train[, -ncol(up.faers5.train)][, rfe5])) %>%
+    dplyr::slice(., sample(1:n()))
+
+svmPoly5.up.model <- train(Class~., data=tr_data, 
                            method='svmPoly', trControl = general.ctrl, metric='ROC',
                            preProcess = c('scale', 'center'))
 
@@ -497,14 +515,20 @@ rpart6.up.model <- train(x=up.faers6.train[, -ncol(up.faers6.train)][, rfe6],
 
 # svmPoly ================
 set.seed(1)
-svmPoly6.model <- train(x=faers.train, y=target.labels.6, 
+tr_data <- as.data.frame(cbind(Class=target.labels.6, faers.train)) %>%
+    dplyr::slice(., sample(1:n()))
+set.seed(1)
+svmPoly6.model <- train(Class~., data=tr_data, 
                         method='svmPoly', trControl = general.ctrl, metric='ROC',
                         preProcess = c('scale', 'center'))
 
 
 set.seed(1)
-svmPoly6.up.model <- train(x=up.faers6.train[, -ncol(up.faers6.train)][, rfe6], 
-                           y=as.factor(up.faers6.train$Class), 
+tr_data <- as.data.frame(cbind(Class=factor(up.faers6.train$Class, levels = c('Negative', 'Positive')),
+                               up.faers6.train[, -ncol(up.faers6.train)][, rfe6])) %>%
+    dplyr::slice(., sample(1:n()))
+
+svmPoly6.up.model <- train(Class~., data=tr_data, 
                            method='svmPoly', trControl = general.ctrl, metric='ROC',
                            preProcess = c('scale', 'center'))
 
@@ -558,7 +582,7 @@ nb6.up.model <- train(x=up.faers6.train[, -ncol(up.faers6.train)][, rfe6],
                       preProcess = c('scale', 'center'), tuneLength = 20)
 
 
-stopCluster(cl)
+stopCluster(clusters)
 
 print('Finished training faers models...')
 
@@ -759,6 +783,18 @@ model.list.6 <- list(glm6=glm6.model, glm6.up=glm6.up.model,
 faers_models <- list(faers_dili1=model.list.1, faers_dili3=model.list.3, faers_dili5=model.list.5, faers_dili6=model.list.6)
 save(faers_models, file = '../models/faers_models.RData')
 rm(list=ls())
+
+# faers_models$faers_dili1$svmPoly1 <- svmPoly1.model
+# faers_models$faers_dili1$svmPoly1.up <- svmPoly1.up.model
+# 
+# faers_models$faers_dili3$svmPoly3 <- svmPoly3.model
+# faers_models$faers_dili3$svmPoly3.up <- svmPoly3.up.model
+# 
+# faers_models$faers_dili5$svmPoly5 <- svmPoly5.model
+# faers_models$faers_dili5$svmPoly5.up <- svmPoly5.up.model
+# 
+# faers_models$faers_dili6$svmPoly6 <- svmPoly6.model
+# faers_models$faers_dili6$svmPoly6.up <- svmPoly6.up.model
 
 
 # 
