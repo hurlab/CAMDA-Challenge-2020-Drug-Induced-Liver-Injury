@@ -6,47 +6,86 @@ setwd(dirname(curr))
 
 #devtools::install_github("RomeroBarata/bimba")
 
+# this script is used for loading necessary libraries and package sand installing them if not available
+# source it at the beginning of your own main script
+# it will also create three folders outside the scripts folders: figures, objects, & data
 
-library(VennDetail)
-library(ggplot2)
-library(caret)
-library(caretEnsemble)
-library(foreign)
-library(readxl)
-library(tidyverse)
-library(parallel)
-library(doParallel)
-#library(GeneExpressionSignature)
-library(glmnet)
-library(mccr)
-library(plyr)
-library(gbm)
-library(DMwR)
-library(kernlab)
-library(nnet)
-library(future)
-library(pROC)
-library(naivebayes)
-library(gridExtra)
-library(mboost)
-library(MASS)
-library(rpart)
-library(adabag)
-library(mctest)
-library(corpcor)
-library(ROSE)
-library(bimba)
-library(mccr)
-library(tidyr)
-library(RColorBrewer)
-library(reshape2)
-library(stringr)
-library(gridExtra)
-library(ggrepel)
-library(ggpubr)
-library(grid)
-library(cowplot)
-library(rcartocolor)
+# download the packages if not available
+if (!require("pacman")) {
+    install.packages("pacman")
+}
+
+pacman::p_load(rstudioapi, doFuture, doSNOW, doParallel, ggplot2,
+               plyr, caret, kernlab, tidyverse, parallel,
+               gridExtra, pROC, future, mctest,
+               tictoc, stringr, foreach, RColorBrewer,
+               VennDetail, foreign, readxl, glmnet, mccr,
+               gbm, DMwR, nnet, naivebayes, gridExtra, mboost, 
+               MASS, rpart, adabag, mctest, corpcor, ROSE, bimba,
+               rcartocolor, cowplot, grid, ggpubr, ggrepel, gridExtra, 
+               reshape2, VennDetail, devtools)
+
+
+
+if(!requireNamespace("BiocManager", quietly = TRUE)){
+    install.packages("BiocManager")
+}
+
+if(!requireNamespace('VennDetail', quietly = T)){
+    BiocManager::install("VennDetail", dependencies=T)
+}
+
+# if(!requireNamespace('PGSEA', quietly = T)){
+#     BiocManager::install("PGSEA", force = T, dependencies=T, version = '3.12')
+# }
+
+if(!requireNamespace('GeneExpressionSignature', quietly = T)){
+    stop('Install the package, GeneExpressionSignature.')
+    #BiocManager::install("GeneExpressionSignature", force = T, dependencies=T)
+}
+
+
+
+# load the library(ies) and packages
+
+require(VennDetail)
+require(ggplot2)
+require(caret)
+require(foreign)
+require(readxl)
+require(tidyverse)
+require(parallel)
+require(doParallel)
+require(GeneExpressionSignature)
+require(glmnet)
+require(mccr)
+require(plyr)
+require(gbm)
+require(DMwR)
+require(kernlab)
+require(nnet)
+require(future)
+require(pROC)
+require(naivebayes)
+require(gridExtra)
+require(mboost)
+require(MASS)
+require(rpart)
+require(adabag)
+require(mctest)
+require(corpcor)
+require(ROSE)
+require(bimba)
+require(tidyr)
+require(RColorBrewer)
+require(reshape2)
+require(stringr)
+require(gridExtra)
+require(ggrepel)
+require(ggpubr)
+require(grid)
+require(cowplot)
+require(rcartocolor)
 
 
 
@@ -76,7 +115,6 @@ mcc <- function(x.model){
     mcc <- above/sqrt(below)
     mcc
 }
-
 
 collate_metrics <- function(models_list){
     
