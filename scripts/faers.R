@@ -6,12 +6,8 @@
 # Temi
 
 
-library(rstudioapi)
-currPath <- getActiveDocumentContext()$path
-setwd(dirname(currPath))
-
 # load libraries
-source('../scripts/packages.R')
+source('./packages.R')
 
 # read data
 faers.data <- read.csv('../data/p2-faers-camda2020.csv',

@@ -10,7 +10,7 @@ currPath <- getActiveDocumentContext()$path
 setwd(dirname(currPath))
 
 # load libraries
-source('../scripts/packages.R')
+source('./packages.R')
 
 # read data
 tox.data <- read.csv('../data/p9-tox21-camda2020.csv',
@@ -129,7 +129,6 @@ glm1.res <- resamples(list(glm1=glm1.scaled.model,
                            glm1.rose=glm1.rose.model,
                            glm1.smote=glm1.smote.model))
 
-summary(glm1.res)
 
 # qda ==========
 set.seed(1)
@@ -148,7 +147,6 @@ qda1.res <- resamples(list(qda1=qda1.scaled.model,
                            qda1.rose=qda1.rose.model,
                            qda1.smote=qda1.smote.model))
 
-summary(qda1.res)
 
 # random forest ======
 set.seed(1)
@@ -166,7 +164,7 @@ rf1.smote.model <- train(Class ~., data=smote1.tox, method='rf',
 rf1.res <- resamples(list(rf1=rf1.scaled.model,
                           rf1.rose=rf1.rose.model,
                           rf1.smote=rf1.smote.model))
-summary(rf1.res)
+
 
 
 # rpart=========
@@ -185,7 +183,7 @@ rpart1.smote.model <- train(Class ~., data=smote1.tox, method='rpart',
 rpart1.res <- resamples(list(rpart1=rpart1.scaled.model,
                              rpart1.rose=rpart1.rose.model,
                              rpart1.smote=rpart1.smote.model))
-summary(rpart1.res)
+
 
 # svmRadial==========
 set.seed(1)
@@ -211,7 +209,6 @@ svmRadial1.smote.model <- train(Class ~., data=smote1.tox,
 svmRadial1.res <- resamples(list(svmRadial1=svmRadial1.scaled.model,
                                  svmRadial1.rose=svmRadial1.rose.model,
                                  svmRadial1.smote=svmRadial1.smote.model))
-summary(svmRadial1.res)
 
 
 # svmPoly==========
@@ -231,7 +228,7 @@ svmPoly1.smote.model <- train(Class ~., data=smote1.tox,
 svmPoly1.res <- resamples(list(svmPoly1=svmPoly1.scaled.model,
                                svmPoly1.rose=svmPoly1.rose.model,
                                svmPoly1.smote=svmPoly1.smote.model))
-summary(svmPoly1.res)
+
 
 # nnet==========
 set.seed(1)
@@ -252,7 +249,7 @@ nnet1.smote.model <- train(Class ~., data=smote1.tox,
 nnet1.res <- resamples(list(nnet1=nnet1.scaled.model,
                             nnet1.rose=nnet1.rose.model,
                             nnet1.smote=nnet1.smote.model))
-summary(nnet1.res)
+
 
 # naive bayes==========
 set.seed(1)
@@ -277,7 +274,7 @@ nb1.smote.model <- train(Class ~., data=smote1.tox,
 nb1.res <- resamples(list(nb1=nb1.scaled.model,
                           nb1.rose=nb1.rose.model,
                           nb1.smote=nb1.smote.model))
-summary(nb1.res)
+
 
 
 # =============== DILI3 ========================
@@ -304,7 +301,7 @@ glm3.res <- resamples(list(glm3=glm3.scaled.model,
                            glm3.rose=glm3.rose.model,
                            glm3.smote=glm3.smote.model))
 
-summary(glm3.res)
+
 
 # qda===========
 set.seed(1)
@@ -323,7 +320,6 @@ qda3.res <- resamples(list(qda3=qda3.scaled.model,
                            qda3.rose=qda3.rose.model,
                            qda3.smote=qda3.smote.model))
 
-summary(qda3.res)
 
 # random forest ======
 set.seed(1)
@@ -341,7 +337,7 @@ rf3.smote.model <- train(Class ~., data=smote3.tox, method='rf',
 rf3.res <- resamples(list(rf3=rf3.scaled.model,
                           rf3.rose=rf3.rose.model,
                           rf3.smote=rf3.smote.model))
-summary(rf3.res)
+
 
 # rpart=========
 set.seed(1)
@@ -359,7 +355,7 @@ rpart3.smote.model <- train(Class ~., data=smote3.tox, method='rpart',
 rpart3.res <- resamples(list(rpart3=rpart3.scaled.model,
                              rpart3.rose=rpart3.rose.model,
                              rpart3.smote=rpart3.smote.model))
-summary(rpart3.res)
+
 
 # svmRadial==========
 set.seed(1)
@@ -381,7 +377,7 @@ svmRadial3.smote.model <- train(Class ~., data=smote3.tox,
 svmRadial3.res <- resamples(list(svmRadial3=svmRadial3.scaled.model,
                                  svmRadial3.rose=svmRadial3.rose.model,
                                  svmRadial3.smote=svmRadial3.smote.model))
-summary(svmRadial3.res)
+
 
 # svmPoly==========
 set.seed(1)
@@ -400,7 +396,7 @@ svmPoly3.smote.model <- train(Class ~., data=smote3.tox,
 svmPoly3.res <- resamples(list(svmPoly3=svmPoly3.scaled.model,
                                svmPoly3.rose=svmPoly3.rose.model,
                                svmPoly3.smote=svmPoly3.smote.model))
-summary(svmPoly3.res)
+
 
 # nnet==========
 set.seed(1)
@@ -421,7 +417,7 @@ nnet3.smote.model <- train(Class ~., data=smote3.tox,
 nnet3.res <- resamples(list(nnet3=nnet3.scaled.model,
                             nnet3.rose=nnet3.rose.model,
                             nnet3.smote=nnet3.smote.model))
-summary(nnet3.res)
+
 
 # naive bayes==========
 set.seed(1)
@@ -446,7 +442,7 @@ nb3.smote.model <- train(Class ~., data=smote3.tox,
 nb3.res <- resamples(list(nb3=nb3.scaled.model,
                           nb3.rose=nb3.rose.model,
                           nb3.smote=nb3.smote.model))
-summary(nb3.res)
+
 
 
 # ========== DILI5 =======================
@@ -473,7 +469,7 @@ glm5.res <- resamples(list(glm5=glm5.scaled.model,
                            glm5.rose=glm5.rose.model,
                            glm5.smote=glm5.smote.model))
 
-summary(glm5.res)
+
 
 # qda===========
 set.seed(1)
@@ -492,7 +488,7 @@ qda5.res <- resamples(list(qda5=qda5.scaled.model,
                            qda5.rose=qda5.rose.model,
                            qda5.smote=qda5.smote.model))
 
-summary(qda5.res)
+
 
 # random forest ======
 set.seed(1)
@@ -510,7 +506,7 @@ rf5.smote.model <- train(Class ~., data=smote5.tox, method='rf',
 rf5.res <- resamples(list(rf5=rf5.scaled.model,
                           rf5.rose=rf5.rose.model,
                           rf5.smote=rf5.smote.model))
-summary(rf5.res)
+
 
 # rpart=========
 set.seed(1)
@@ -528,7 +524,7 @@ rpart5.smote.model <- train(Class ~., data=smote5.tox, method='rpart',
 rpart5.res <- resamples(list(rpart5=rpart5.scaled.model,
                              rpart5.rose=rpart5.rose.model,
                              rpart5.smote=rpart5.smote.model))
-summary(rpart5.res)
+
 
 # svmRadial==========
 set.seed(1)
@@ -554,7 +550,7 @@ svmRadial5.smote.model <- train(Class ~., data=smote5.tox,
 svmRadial5.res <- resamples(list(svmRadial5=svmRadial5.scaled.model,
                                  svmRadial5.rose=svmRadial5.rose.model,
                                  svmRadial5.smote=svmRadial5.smote.model))
-summary(svmRadial5.res)
+
 
 # svmPoly==========
 set.seed(1)
@@ -573,7 +569,7 @@ svmPoly5.smote.model <- train(Class ~., data=smote5.tox,
 svmPoly5.res <- resamples(list(svmPoly5=svmPoly5.scaled.model,
                                svmPoly5.rose=svmPoly5.rose.model,
                                svmPoly5.smote=svmPoly5.smote.model))
-summary(svmPoly5.res)
+
 
 # nnet==========
 set.seed(1)
@@ -594,7 +590,7 @@ nnet5.smote.model <- train(Class ~., data=smote5.tox,
 nnet5.res <- resamples(list(nnet5=nnet5.scaled.model,
                             nnet5.rose=nnet5.rose.model,
                             nnet5.smote=nnet5.smote.model))
-summary(nnet5.res)
+
 
 # naive bayes==========
 set.seed(1)
@@ -619,7 +615,7 @@ nb5.smote.model <- train(Class ~., data=smote5.tox,
 nb5.res <- resamples(list(nb5=nb5.scaled.model,
                           nb5.rose=nb5.rose.model,
                           nb5.smote=nb5.smote.model))
-summary(nb5.res)
+
 
 
 # ================ DILI6 ====================
@@ -646,7 +642,7 @@ glm6.res <- resamples(list(glm6=glm6.scaled.model,
                            glm6.rose=glm6.rose.model,
                            glm6.smote=glm6.smote.model))
 
-summary(glm6.res)
+
 
 # qda===========
 set.seed(1)
@@ -665,7 +661,7 @@ qda6.res <- resamples(list(qda6=qda6.scaled.model,
                            qda6.rose=qda6.rose.model,
                            qda6.smote=qda6.smote.model))
 
-summary(qda6.res)
+
 
 # random forest ======
 set.seed(1)
@@ -683,7 +679,7 @@ rf6.smote.model <- train(Class ~., data=smote6.tox, method='rf',
 rf6.res <- resamples(list(rf6=rf6.scaled.model,
                           rf6.rose=rf6.rose.model,
                           rf6.smote=rf6.smote.model))
-summary(rf6.res)
+
 
 # rpart=========
 set.seed(1)
@@ -701,7 +697,7 @@ rpart6.smote.model <- train(Class ~., data=smote6.tox, method='rpart',
 rpart6.res <- resamples(list(rpart6=rpart6.scaled.model,
                              rpart6.rose=rpart6.rose.model,
                              rpart6.smote=rpart6.smote.model))
-summary(rpart6.res)
+
 
 # svmRadial==========
 set.seed(1)
@@ -723,7 +719,7 @@ svmRadial6.smote.model <- train(Class ~., data=smote6.tox,
 svmRadial6.res <- resamples(list(svmRadial6=svmRadial6.scaled.model,
                                  svmRadial6.rose=svmRadial6.rose.model,
                                  svmRadial6.smote=svmRadial6.smote.model))
-summary(svmRadial6.res)
+
 
 # svmPoly==========
 set.seed(1)
@@ -742,7 +738,7 @@ svmPoly6.smote.model <- train(Class ~., data=smote6.tox,
 svmPoly6.res <- resamples(list(svmPoly6=svmPoly6.scaled.model,
                                svmPoly6.rose=svmPoly6.rose.model,
                                svmPoly6.smote=svmPoly6.smote.model))
-summary(svmPoly6.res)
+
 
 # nnet==========
 set.seed(1)
@@ -763,7 +759,7 @@ nnet6.smote.model <- train(Class ~., data=smote6.tox,
 nnet6.res <- resamples(list(nnet6=nnet6.scaled.model,
                             nnet6.rose=nnet6.rose.model,
                             nnet6.smote=nnet6.smote.model))
-summary(nnet6.res)
+
 
 # naive bayes==========
 set.seed(1)
@@ -788,7 +784,7 @@ nb6.smote.model <- train(Class ~., data=smote6.tox,
 nb6.res <- resamples(list(nb6=nb6.scaled.model,
                           nb6.rose=nb6.rose.model,
                           nb6.smote=nb6.smote.model))
-summary(nb6.res)
+
 
 print('Finished training tox models...')
 

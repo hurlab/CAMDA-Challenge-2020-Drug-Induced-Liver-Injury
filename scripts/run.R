@@ -2,12 +2,10 @@
 
 
 # create the directories needed
-curr <- rstudioapi::getActiveDocumentContext()$path
-setwd(dirname(curr))
-setwd('../')
 
-path <- '.'
-directories <- c('models', 'predictions', 'evaluations', 'output_files', 'output_plots', 'data', 'empty_dir')
+
+path <- '..'
+directories <- c('models', 'predictions', 'evaluations', 'output_files', 'output_plots', 'data')
 
 for(d in directories){
     if(!dir.exists(file.path(path, d))){

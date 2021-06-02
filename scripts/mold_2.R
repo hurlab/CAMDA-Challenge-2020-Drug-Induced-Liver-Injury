@@ -5,12 +5,8 @@
 
 # Temi
 
-library(rstudioapi)
-currPath <- getActiveDocumentContext()$path
-setwd(dirname(currPath))
-
 # load libraries
-source('../scripts/packages.R')
+source('./packages.R')
 
 #setwd('/extData/NGS/hurlab/temi/projects/camda/mold2/')
 
