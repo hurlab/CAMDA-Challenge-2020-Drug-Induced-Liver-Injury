@@ -15,9 +15,6 @@ for(d in directories){
     }
 }
 
-
-setwd(dirname(curr))
-
 get_clusters <- function(){
     
     cluster_number <- readline(prompt='Kindly supply the number of cores to use to run the models (The number of cores used\
